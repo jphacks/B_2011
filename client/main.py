@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import test, clipboard_monitor,active_window_monitor
+from testModule import test, clipboard_monitor, active_window_monitor
 
 def terminate():
     while True:
