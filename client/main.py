@@ -6,12 +6,13 @@
 import threading
 import logging
 # import modules
-from testModule import test
+from testModule import sampling_pics, calc_similarity
 
 def main():
     # create threads
     threads = [
-            # threading.Thread(target=test.hoge)
+            threading.Thread(target=sampling_pics.sampling_pics),
+            threading.Thread(target=calc_similarity.calc_similarity)
     ]
     # call threads
     for t in threads:
