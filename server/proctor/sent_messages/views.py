@@ -29,7 +29,14 @@ class MessageAPIView(APIView):
 class MessageListAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
-        messages = Message.objects.filter(examinee_id=request.query_params['examinee_id'])
+
+        query_param = request.GET.get('examinee_id')
+        if query_param:
+            messages = Message.objects.filter(examinee_id=query_param)
+        else:
+            query_param = request.GET.get('exam_id')
+            messages = Message.objects.filter(exam_id=query_param)
+
         serializer = MessageSerializer(messages, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
