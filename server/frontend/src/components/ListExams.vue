@@ -6,7 +6,7 @@
     <v-list-item v-repeat="exams">
       <v-list-item-content>
         <v-list-item-title>
-          <router-link to='/exams/{{exam_id}}'>
+          <router-link :to="{ name: 'Exam Report', params: { exam_id: exam_id }}">
             {{exam_id}}
           </router-link>
         </v-list-item-title>
