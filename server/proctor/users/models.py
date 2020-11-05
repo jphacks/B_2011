@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager as _UserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import UserManager as _UserManager
 from django.utils import timezone
 import uuid
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.hashers import make_password
 
 
 class UserManager(_UserManager):
@@ -14,18 +16,21 @@ class UserManager(_UserManager):
         if not email:
             raise ValueError('The given email must be set')
 
+        #GlobalUserModel = apps.get_model(self.model._meta.app_label, self.model._meta.object_name)
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.password = user.set_password(password)
+        user.password = make_password(password)
         user.save(using=self._db)
         return user
 
     def create_user(self, email, password=None, **extra_fields):
+
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
+
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         if extra_fields.get('is_staff') is not True:
