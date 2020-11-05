@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import test, clipboard_monitor, active_window_monitor
+from testModule import test, summon_voice_text_window, clipboard_monitor, active_window_monitor
 
 def terminate():
     while True:
@@ -17,6 +17,9 @@ def terminate():
             sys.exit(0)
 
 def main():
+    # record voice first
+    summon_voice_text_window.record()
+
     # create threads
     threads = [
             threading.Thread(target=test.hoge),
