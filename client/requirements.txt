@@ -1,0 +1,4 @@
+# python module
+
+pyperclip
+plyer
