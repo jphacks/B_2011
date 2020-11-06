@@ -20,7 +20,7 @@ def calc_similarity():
 		valid_image = face_recognition.load_image_file(valid_uri)
 		sample_image = face_recognition.load_image_file(sample_uri)
 
-		try:
+		try:	
 			valid_encoding = face_recognition.face_encodings(valid_image)[0]
 			sample_encoding = face_recognition.face_encodings(sample_image)[0]
 			result = face_recognition.compare_faces([valid_encoding], sample_encoding)[0]
@@ -36,4 +36,3 @@ def calc_similarity():
 			helper.send_json(module_name, True, description, content)
 		else:
 			description = 'examinee is on the chair'
-

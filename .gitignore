@@ -1,4 +1,5 @@
 **/__pycache__/*
+server/proctor/venv
 venv
 **/img/*.png
 **/log/
