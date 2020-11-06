@@ -1,0 +1,29 @@
+# 音声ファイルから HTK で扱える特徴量ファイルを作成するために， HCopy に渡す config ファイル
+
+# 入力ファイルに関する指定
+SOURCEKIND     = WAVEFORM           # 入力ファイルの種類の指定．WAVEFORM の他には，MFCC_E_Z なども指定できる．HTKBook 参照．
+SOURCEFORMAT   = WAV             # 音声ファイルのフォーマットの指定．NOHEAD の他には，WAV なども指定できる．HTKBook 参照．
+SOURCERATE     = 625                # 100 nsec 長に対応するサンプルの数の指定．625 だと，16 kHz サンプリングに相当する．
+ZMEANSOURCE    = T                  # 音声ファイルの平均値を 0 にする操作を T(rue) にする．マイクのオフセットなどを消す効果がある．
+
+# 出力ファイルに関する指定
+TARGETKIND     = MFCC_E_D         # 出力ファイルの種類の指定．MFCC_E_D_Z の他には，PLP_D なども指定できる．HTKBook 参照．
+                                    # なおMFCC_E_D_Z は，「MFCC + Energy(_E) + それらのDelta特徴量(_D)，それらに CMN をかけたもの(_Z)」を意味する
+# ENORMALISE     = F                  # Energy のノーマライズ操作を F(alse) にする．
+# ESCALE         = 1.0                # 通常，Energy は他の特徴量と大きくオーダーが異なる．そのため ESCALE でスケールを変化させる．今回は変化させない．
+RAWENERGY      = F                  # ケプストラムの 0 次項 (raw energy) を使うか，別に計算した energy を使うかの指定．今回は energy を使う．
+TARGETRATE     = 100000.0           # シフト長 [100nsec]．100000 [100nsec] = 10 [msec]．
+WINDOWSIZE     = 250000.0           # 窓幅 [100nsec].     250000 [100nsec] = 25 [msec]．
+USEHAMMING     = T                  # Hamming 窓を使うかどうかの指定．今回は Hamming 窓を使用する．
+PREEMCOEF      = 0.97               # 高域強調を $1 + z^{PREEMCOEF}$ なる z 変換で行う．
+
+NUMCHANS       = 24                 # MFCC を抽出する際のフィルタバンク数の設定．デフォルトでは 20 だが，24 の方が認識率が高い場合が多いらしい．
+NUMCEPS        = 12                 # リフタリング後の MFCC の次元数．デフォルトも 12 である．
+
+SAVECOMPRESSED = F                  # 出力ファイルを圧縮するかどうかの指定．
+SAVEWITHCRC    = F                  # 出力ファイルに CRC 記号を含めるかどうかの指定．
+
+# BYTEORDER      = NONVAX             # 入力ファイルのエンディアンを NONVAX（Big endian）にする．
+
+NATURALREADORDER = TRUE 
+NATURALWRITEORDER = TRUE
