@@ -3,7 +3,6 @@ import os
 sys.path.append(os.path.abspath(".."))
 from helperModule import helper
 
-import sys
 import time
 
 def monitor(exam_id, tester_id, tester_name, examinee_id):

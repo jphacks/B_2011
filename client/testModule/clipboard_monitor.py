@@ -1,10 +1,10 @@
-from plyer import notification
-import pyperclip
-from helperModule import helper
 import sys
 import os
 sys.path.append(os.path.abspath(".."))
+from helperModule import helper
 
+from plyer import notification
+import pyperclip
 
 def monitor(exam_id, tester_id, tester_name, examinee_id):
     previous = pyperclip.paste()
