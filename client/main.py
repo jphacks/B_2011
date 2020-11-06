@@ -30,9 +30,9 @@ def main():
     threads = [
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
-            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection),
             threading.Thread(target=electron_server.createServer),
-            threading.Thread(target=electron_server.startElectron)
+            threading.Thread(target=electron_server.startElectron),
+            threading.Thread(target=voice_anomaly_detection.anomaly_detection)
     ]
     # call threads
     for t in threads:
