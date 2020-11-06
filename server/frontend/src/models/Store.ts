@@ -37,7 +37,7 @@ const PropertyStore = new Vuex.Store({
     },
     setExams (state, response) {
       console.log(JSON.parse(response))
-      state.property.alert_data = JSON.parse(response).data
+      state.property.exam_list = JSON.parse(response).data
       state.property.status = StatusConfig.LOADED
     },
     setExamId (state, id) {
@@ -56,9 +56,6 @@ const PropertyStore = new Vuex.Store({
             return res.json()
           }
         }).then(res => {
-          commit('setAlerts', res)
-        })
-        .then(res => {
             commit('setAlerts', res)
           }
         )
@@ -72,9 +69,6 @@ const PropertyStore = new Vuex.Store({
             return res.json()
           }
         }).then(res => {
-          commit('setAlerts', res)
-        })
-        .then(res => {
             commit('setAlerts', res)
           }
         )
@@ -87,10 +81,6 @@ const PropertyStore = new Vuex.Store({
             return res.json()
           }
         }).then(res => {
-          commit('setExams', res)
-        })
-        .then(res => {
-          console.log(res)
           commit('setExams', res)
           }
         )
