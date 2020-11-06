@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 
 from sent_messages.models import Message
 from sent_messages.serizlizers import MessageSerializer
+import json
 
 
 class MessageAPIView(APIView):
@@ -26,21 +27,31 @@ class MessageAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-
 class MessageListAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
 
-        query_param = request.GET.get('examinee_id')
-        if query_param:
-            messages = Message.objects.filter(examinee_id=query_param)
-        else:
-            query_param = request.GET.get('exam_id')
-            messages = Message.objects.filter(exam_id=query_param)
+        query_param_examinee_id = request.GET.get('examinee_id')
+        query_param_exam_id = request.GET.get('exam_id')
+        if query_param_examinee_id:
+            descriptions = Message.objects\
+                .filter(examinee_id=query_param_examinee_id)\
+                .filter(alert=True)\
+                .values_list('description', flat=True)
+            descriptions = list(descriptions)
+            data = {'alert_data': descriptions}
+            return Response(json.dumps(data), status=status.HTTP_200_OK)
 
-        serializer = MessageSerializer(messages, many=True)
+        if query_param_exam_id:
+            descriptions = Message.objects \
+                .filter(exam_id=query_param_exam_id) \
+                .filter(alert=True) \
+                .values_list('description', flat=True)
+            descriptions = list(descriptions)
+            data = {'alert_data': descriptions}
+            return Response(json.dumps(data), status=status.HTTP_200_OK)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(None, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, *args, **kwargs):
         serializer = MessageSerializer(data=request.data, many=True)
