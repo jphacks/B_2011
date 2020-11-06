@@ -3,7 +3,9 @@
     <div v-show="is_loading">
       Loading...
     </div>
-    <ListAlerts v-show="!is_loading"/>
+    <ListAlerts
+      v-show="!is_loading"
+      :alerts="alerts" />
   </div>
 </template>
 <script>
@@ -14,6 +16,11 @@ import StatusConfig from '@/config/Status.ts'
 
 export default Vue.extend({
   name: 'Exam Report',
+  data: function () {
+    return {
+      alerts: Store.state.property.alert_data
+    }
+  },
   computed: {
     is_loading: function () {
       return Store.state.property.status === StatusConfig.INITIALIZE

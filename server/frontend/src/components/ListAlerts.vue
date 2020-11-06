@@ -19,13 +19,12 @@
 </template>
 <script>
 import Vue from 'vue'
-import Store from '../models/Store.ts'
 
 export default Vue.extend({
   name: 'ListAlerts',
   data: function () {
     return {
-      alerts: Store.state.property.alert_data
+      alerts: this.$parent.alerts
     }
   }
 })

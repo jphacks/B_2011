@@ -16,14 +16,13 @@
 </template>
 <script>
 import Vue from 'vue'
-import Store from '../models/Store.ts'
 
 export default Vue.extend({
   name: 'ListExams',
   data: function () {
     console.log(Store.state.property.exam_list)
     return {
-      exams: Store.state.property.exam_list
+      exams: this.$parent.exam_list
     }
   }
 })
