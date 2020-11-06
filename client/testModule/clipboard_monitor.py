@@ -3,10 +3,10 @@ import os
 sys.path.append(os.path.abspath(".."))
 from helperModule import helper
 
-import pyperclip
 from plyer import notification
+import pyperclip
 
-def monitor():
+def monitor(exam_id, tester_id, tester_name, examinee_id):
     previous = pyperclip.paste()
 
     while True:
@@ -14,7 +14,16 @@ def monitor():
             now = pyperclip.paste()
             if now != previous:
                 previous = now
-                helper.send_str("This guy is copying something!")      
+                helper.send_json(
+                    exam_id=exam_id,
+                    tester_id=tester_id,
+                    tester_name=tester_name,
+                    examinee_id=examinee_id,
+                    module_name="clipboard",
+                    alert="True",
+                    description="This guy is copying something!",
+                    content=previous
+                )
                 notification.notify(
                     title="Suspicious action detected!",
                     message="Contents in clipboard changed",
