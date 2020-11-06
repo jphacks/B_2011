@@ -19,6 +19,7 @@ import StatusConfig from '@/config/Status.ts'
 export default Vue.extend({
   name: 'Home',
   data: function () {
+    console.log(Store.state.property.exam_list)
     return {
       exam_list: Store.state.property.exam_list
     }

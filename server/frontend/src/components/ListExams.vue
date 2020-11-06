@@ -20,7 +20,6 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'ListExams',
   data: function () {
-    console.log(Store.state.property.exam_list)
     return {
       exams: this.$parent.exam_list
     }
