@@ -17,6 +17,8 @@ start = 0 # the time to clear the queue.
 # TODO : return the examinee_id
 def load_userid():
     return main.examinee_id
+def load_examid():
+    return main.exam_id
 
 # call first.
 def init_time():
@@ -41,16 +43,17 @@ def send_json_to_server():
 # push json data to queue
 def push_to_queue(json_data):
     que.put(json_data)
-
-# send json data.
-# you can send any object as json using this function
-def send_json(module_name: str, alert: bool, description: str = ''):
+    
+def send_json(module_name: str, alert: bool, description: str = '', content: str = ''):
     user_id = load_userid()
+    exam_id = load_examid()
     json_data = {
         "examinee_id" : user_id,
+        "exam_id" : exam_id,
         "module_name" : module_name,
         "alert" : alert,
-        "description" : description
+        "description" : description,
+        "content" : content,
     }
     push_to_queue(json_data)
-
+    
