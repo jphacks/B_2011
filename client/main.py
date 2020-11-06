@@ -27,9 +27,9 @@ def main():
 
     # create threads
     threads = [
-            threading.Thread(target=clipboard_monitor.monitor, args=([exam_id, tester_id, tester_name, examinee_id])),
-            threading.Thread(target=active_window_monitor.monitor, args=([exam_id, tester_id, tester_name, examinee_id])),
-            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection, args=([exam_id, tester_id, tester_name, examinee_id]))
+            threading.Thread(target=clipboard_monitor.monitor, args=([exam_id, examinee_id])),
+            threading.Thread(target=active_window_monitor.monitor, args=([exam_id, examinee_id])),
+            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection, args=([exam_id, examinee_id]))
     ]
     # call threads
     for t in threads:
