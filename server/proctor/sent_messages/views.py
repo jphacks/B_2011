@@ -26,6 +26,7 @@ class MessageAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+
 class MessageListAPIView(APIView):
 
     def get(self, request, *args, **kwargs):

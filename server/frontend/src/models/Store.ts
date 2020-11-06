@@ -34,7 +34,7 @@ const PropertyStore = new Vuex.Store({
   },
   actions: {
     getExamAlerts ({ commit }) {
-      axios.get(process.env.API_SERVER_URL + '/exams/' + this.state.property.exam_id)
+      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/message/?exam_id=' + this.state.property.exam_id)
         .then(res => {
           if (res.status === 200) {
             commit('setAlerts', res)
@@ -42,7 +42,7 @@ const PropertyStore = new Vuex.Store({
         })
     },
     getExamineeAlerts ({ commit }) {
-      axios.get(process.env.API_SERVER_URL + '/examinees/' + this.state.property.examinee_id)
+      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/message/?examinee_id=' + this.state.property.examinee_id)
         .then(res => {
           if (res.status === 200) {
             commit('setAlerts', res)
@@ -50,7 +50,7 @@ const PropertyStore = new Vuex.Store({
         })
     },
     getExamList ({ commit }) {
-      axios.get(process.env.API_SERVER_URL + '/exams')
+      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list')
         .then(res => {
           if (res.status === 200) {
             commit('setExams', res)
