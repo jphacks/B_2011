@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import test, summon_voice_text_window, clipboard_monitor, active_window_monitor
+from testModule import test, summon_voice_text_window, clipboard_monitor, active_window_monitor, voice.voice_anomaly_detection
 
 def terminate():
     while True:
@@ -22,9 +22,10 @@ def main():
 
     # create threads
     threads = [
-            threading.Thread(target=test.hoge),
+            # threading.Thread(target=test.hoge),
             threading.Thread(target=clipboard_monitor.monitor),
-            threading.Thread(target=active_window_monitor.monitor)
+            threading.Thread(target=active_window_monitor.monitor),
+            threading.Thread(target=voice.voice-anomaly-detection.anomaly_detection)
     ]
     # call threads
     for t in threads:
