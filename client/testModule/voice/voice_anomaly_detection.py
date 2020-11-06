@@ -84,9 +84,7 @@ def get(examinee_id, exam_id):
 
     send_json(json_data)
 
-def main():
-    if os.path.exists('log'):
-        shutil.rmtree('log')
+def anomaly_detection():
     if os.path.exists('output'):
         shutil.rmtree('output')
     os.mkdir('log')
@@ -96,7 +94,6 @@ def main():
     while True:
         # TODO : 音量がしきい値を超えたら録音スタート
         if anyone_speaking() == True:
-            print("録音スタート！！！")
             pass
 
         # caution : log_pathは相対パス
