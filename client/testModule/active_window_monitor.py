@@ -5,7 +5,7 @@ from helperModule import helper
 
 import time
 
-def monitor(exam_id, tester_id, tester_name, examinee_id):
+def monitor():
     if sys.platform == "darwin": # for Mac
         pass # To be honest, I don't know much about Mac :/
 
@@ -31,12 +31,8 @@ def monitor(exam_id, tester_id, tester_name, examinee_id):
             if now != previous:
                 previous = now
                 helper.send_json(
-                    exam_id=exam_id,
-                    tester_id=tester_id,
-                    tester_name=tester_name,
-                    examinee_id=examinee_id,
                     module_name="window",
-                    alert="True",
+                    alert=True,
                     description="Active window changed.",
                     content=previous
                 )

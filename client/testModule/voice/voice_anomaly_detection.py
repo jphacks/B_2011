@@ -71,18 +71,15 @@ def record():
 
     return log_path, filename
 
-def get(examinee_id, exam_id):
+def get():
     # TODO : URLを指定する。
     url = 'http://demo.ben.hongo.wide.ad.jp:8000/api/message/list'
-    json_data = {
-        "examinee_id" : examinee_id,
-        "exam_id" : exam_id,
-        "module_name" : "voice",
-        "alert" : "True",
-        "description" : "本人ではない人の声を検出しました。"
-    }
+    module_name = "voice"
+    alert = True
+    description = "本人ではない人の声を検出しました。"
+    content = ""
 
-    send_json(json_data)
+    helper.send_json(module_name, alert, description, content)
 
 def anomaly_detection():
     if os.path.exists('output'):
@@ -105,12 +102,4 @@ def anomaly_detection():
             s = s[0]
             # 暫定でkanayaの声でない場合アラートを出す。
             if s != '1':
-                examinee_id = "69bc4034-97fd-47e3-b0b7-ec16e56c1843"
-                exam_id = "961ab556-f2c6-47ef-bfda-efdf9193cc7d"
-                get(examinee_id, exam_id)
-
-        
-
-
-if __name__ == '__main__':
-    main()
+                get()
