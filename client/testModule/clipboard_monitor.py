@@ -16,7 +16,7 @@ def monitor():
                 previous = now
                 helper.send_json(
                     module_name="clipboard",
-                    alert="True",
+                    alert=True,
                     description="This guy is copying something!",
                     content=previous
                 )

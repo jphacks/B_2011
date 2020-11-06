@@ -32,7 +32,7 @@ def monitor():
                 previous = now
                 helper.send_json(
                     module_name="window",
-                    alert="True",
+                    alert=True,
                     description="Active window changed.",
                     content=previous
                 )
