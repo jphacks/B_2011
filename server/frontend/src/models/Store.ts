@@ -35,8 +35,9 @@ const PropertyStore = new Vuex.Store({
   },
   actions: {
     getExamAlerts ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?exam_id=' + this.state.property.exam_id, {mode:'cors'})
-        .then(res => {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?exam_id=' + this.state.property.exam_id, {
+        mode: 'cors'
+      }).then(res => {
           if (res.status === 200) {
             return res.json()
           }
@@ -48,8 +49,9 @@ const PropertyStore = new Vuex.Store({
 
     },
     getExamineeAlerts ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?examinee_id=' + this.state.property.examinee_id, {mode:'cors'})
-        .then(res => {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?examinee_id=' + this.state.property.examinee_id, {
+        mode: 'cors'
+      }).then(res => {
           if (res.status === 200) {
             return res.json()
           }
@@ -60,8 +62,9 @@ const PropertyStore = new Vuex.Store({
         )
     },
     getExamList ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {mode:'cors'})
-        .then(res => {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {
+        mode: 'cors'
+      }).then(res => {
           if (res.status === 200) {
             return res.json()
           }

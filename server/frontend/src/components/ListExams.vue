@@ -3,11 +3,11 @@
     class="mx-auto"
     tile
   >
-    <v-list-item v-for="exam in exams">
+    <v-list-item v-for="(exam, idx) in exams" :key="idx">
       <v-list-item-content>
         <v-list-item-title>
           <router-link :to="{ name: 'Exam Report', params: { exam_id: exam }}">
-            {{exam}}
+            {{ exam }}
           </router-link>
         </v-list-item-title>
       </v-list-item-content>
