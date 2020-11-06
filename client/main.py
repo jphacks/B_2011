@@ -7,7 +7,8 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, voice.voice_anomaly_detection
+from testModule.voice import voice_anomaly_detection
+from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor
 
 exam_id = "123abc"
 tester_id = "789xyz"
@@ -29,7 +30,7 @@ def main():
     threads = [
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
-            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection)
+            threading.Thread(target=voice_anomaly_detection.anomaly_detection)
     ]
     # call threads
     for t in threads:

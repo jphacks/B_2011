@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.path.abspath('../..'))
 from helperModule import helper
 
-DEVICE_INDEX = 14        # デバイスによって異なるゾ〜
+DEVICE_INDEX = 1        # デバイスによって異なるゾ〜
 CHUNK = 1024
 FORMAT = pyaudio.paInt16 # 16bit
 CHANNELS = 1             # monaural
@@ -84,6 +84,8 @@ def get():
 def anomaly_detection():
     if os.path.exists('output'):
         shutil.rmtree('output')
+    if os.path.exists('log'):
+        shutil.rmtree('log')
     os.mkdir('log')
     os.mkdir('output')
 
