@@ -41,7 +41,7 @@ def record():
 
     now = datetime.datetime.now()
     filename = 'log_' + now.strftime('%Y%m%d_%H%M%S')
-    log_path = './log/' + filename + '.wan'
+    log_path = './log/' + filename + '.wav'
 
     # TODO : なぜかここで出力される原因の究明
     p = pyaudio.PyAudio()
@@ -82,7 +82,7 @@ def get(examinee_id, exam_id):
         "description" : "本人ではない人の声を検出しました。"
     }
 
-    # send_json(json_data)
+    send_json(json_data)
 
 def main():
     if os.path.exists('log'):
