@@ -1,0 +1,60 @@
+# grammer.jconf
+#
+# このファイルは，音声認識プログラムであるjuliusの設定ファイルです．
+# 自由に変更してもらってかまいません．
+# 正式な仕様については，
+# http://julius.sourceforge.jp/index.php?q=documents.html#juliusbook
+# を参照してください．
+# 
+# なお，#で始まる行はコメントアウトされます．
+#
+
+
+############################################################
+# あらかじめ学習しておいたHMMファイルの指定
+# HMMファイルはこちらで用意しました．
+
+# monophone HMMを指定する．
+#-h asr/model/binhmm-jnas-mono-mix16
+-h model/binhmm-jnas-mono-mix16
+
+# triphone HMMを使いたい場合はこちらを使ってください．
+# monophone HMMとtriphone HMM の違いについては，
+# googleするか最寄りのTAに質問してください．
+#-h binhmm-jnas-tri2000x16
+
+
+
+############################################################
+# HMMファイルに含まれる音素HMMのリストの指定
+
+# binhmm-jnas-mono-mix16に含まれているHMMのリスト
+-hlist mono.lst
+#-hlist mono.lst
+
+# binhmm-jnas-tri2000x16に含まれているHMMのリスト
+#-hlist logicalTri.jnas
+#-hlist asr/logicalTri.jnas
+
+
+
+############################################################
+# 音声入力をマイク入力に指定する．
+-input mic
+#-input
+#-input file
+#-filelist /tmp/dialogue/list.txt
+
+############################################################
+# 音声区間検出の閾値の設定． 
+# 値が小さいほど敏感になり，大きいほど鈍くなります．
+# -lv 1500
+-lv 1000
+#-lv 500
+
+
+
+############################################################
+# 認識する文法の指定．
+# これを書き換えると認識する文法を変更することができます．
+-gram grammar/maid
