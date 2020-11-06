@@ -6,7 +6,7 @@
     <v-list-item v-for="(exam, idx) in exams" :key="idx">
       <v-list-item-content>
         <v-list-item-title>
-          <router-link :to="{ name: 'Exam Report', params: { exam_id: exam }}">
+          <router-link :to="{ name: 'exam_report', params: { exam_id: exam }}">
             {{ exam }}
           </router-link>
         </v-list-item-title>
@@ -19,9 +19,9 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ListExams',
-  data: function () {
-    return {
-      exams: this.$parent.exam_list
+  computed: {
+    exams: function () {
+      return this.$parent.exam_list
     }
   }
 })

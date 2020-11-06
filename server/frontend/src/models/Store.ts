@@ -13,15 +13,31 @@ const PropertyStore = new Vuex.Store({
       status: StatusConfig.INITIALIZE
     }
   },
+  getters: {
+    exam_id: state => {
+      return state.property.exam_id
+    },
+    examinee_id: state => {
+      return state.property.examinee_id
+    },
+    alert_data: state => {
+      return state.property.alert_data
+    },
+    exam_list: state => {
+      return state.property.exam_list
+    },
+    status: state => {
+      return state.property.status
+    }
+  },
   mutations: {
     setAlerts (state, response) {
-      // TODO: is the response valid form?
-      state.property.alert_data = response.data.alert_data
+      console.log(JSON.parse(response))
+      state.property.alert_data = JSON.parse(response).data.alert_data
       state.property.status = StatusConfig.LOADED
     },
     setExams (state, response) {
-      // TODO: is the response valid form?
-      state.property.exam_list = response.data.exam_list
+      state.property.exam_list = JSON.parse(response).data
       state.property.status = StatusConfig.LOADED
     },
     setExamId (state, id) {
@@ -33,33 +49,39 @@ const PropertyStore = new Vuex.Store({
   },
   actions: {
     getExamAlerts ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/exams/' + this.state.property.exam_id, {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?exam_id=' + this.state.property.exam_id, {
         mode: 'cors'
       })
         .then(res => {
           if (res.status === 200) {
-            commit('setAlerts', res)
+            return res.json()
           }
+        }).then(res => {
+          commit('setAlerts', res)
         })
     },
     getExamineeAlerts ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/examinees/' + this.state.property.examinee_id, {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?examinee_id=' + this.state.property.examinee_id, {
         mode: 'cors'
       })
         .then(res => {
           if (res.status === 200) {
-            commit('setAlerts', res)
+            return res.json()
           }
+        }).then(res => {
+          commit('setAlerts', res)
         })
     },
     getExamList ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/exams', {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {
         mode: 'cors'
       })
         .then(res => {
           if (res.status === 200) {
-            commit('setExams', res)
+            return res.json()
           }
+        }).then(res => {
+          commit('setExams', res)
         })
     }
   }

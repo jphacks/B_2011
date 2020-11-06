@@ -6,30 +6,31 @@
     </div>
     <ListExams
       v-show="!is_loading"
-      :exam_list="exam_list" />
+      :exam_list="exam_list"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import ListExams from '@/components/ListExams.vue' // @ is an alias to /src
-import Store from '@/models/Store.ts'
 import StatusConfig from '@/config/Status.ts'
 
 export default Vue.extend({
   name: 'Home',
-  data: function () {
-    return {
-      exam_list: Store.state.property.exam_list
-    }
+  created: function () {
+    this.$store.dispatch('getExamList')
+  },
+  components: {
+    ListExams
   },
   computed: {
     is_loading: function () {
-      return Store.state.property.status === StatusConfig.INITIALIZE
+      return this.$store.getters.status === StatusConfig.INITIALIZE
+    },
+    exam_list: function () {
+      return this.$store.getters.exam_list
     }
   }
 })
-
-Store.dispatch('getExamList')
-Vue.component('ListExams', ListExams)
 </script>
