@@ -9,9 +9,11 @@ def calc_similarity():
 	#save examinee's photo as valid.png before exam starts
 	valid_uri = './img/valid.png'
 	sample_uri = './img/sample.png'
-	message = 'monitor starts'
+
+	module_name = "face_validation"
+	content = ""
+
 	while(True):
-		helper.send_str(message)
 		#run validation once a second
 		time.sleep(1)
 
@@ -25,10 +27,12 @@ def calc_similarity():
 			#for debug
 			#print('distance is',result)
 		except:
-			message = 'any face cannot be detected'
+			description = 'any face cannot be detected'
+			helper.send_json(module_name, True, description, content)
 			continue
+
 		if result > 0.4:
-			message = 'different person might be taking exam'
+			description = 'different person might be taking exam'
+			helper.send_json(module_name, True, description, content)
 		else:
-			message = 'examinee is on the chair'
-		
+			description = 'examinee is on the chair'

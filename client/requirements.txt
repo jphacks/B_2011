@@ -1,4 +1,0 @@
-# python module
-
-pyperclip
-plyer
