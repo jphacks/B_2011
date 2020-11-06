@@ -44,7 +44,7 @@ def push_to_queue(json_data):
 
 # send json data.
 # you can send any object as json using this function
-def send_json(module_name, alert, description):
+def send_json(module_name: str, alert: bool, description: str = ''):
     user_id = load_userid()
     json_data = {
         "examinee_id" : user_id,
