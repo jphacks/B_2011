@@ -45,8 +45,8 @@ class MessageListAPIView(APIView):
             messages = Message.objects \
                 .filter(exam_id=query_param_exam_id) \
                 .filter(alert=True)
-            messages = MessageSerializer(messages, many=True)
-            data = {'alert_data':  messages}
+            serializer = MessageSerializer(messages, many=True)
+            data = {'alert_data':  serializer.data}
             return Response(json.dumps(data), status=status.HTTP_200_OK)
 
         return Response(None, status=status.HTTP_400_BAD_REQUEST)
