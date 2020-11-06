@@ -33,7 +33,7 @@ const PropertyStore = new Vuex.Store({
   mutations: {
     setAlerts (state, response) {
       console.log(JSON.parse(response))
-      state.property.alert_data = JSON.parse(response).data.alert_data
+      state.property.alert_data = JSON.parse(response).data
       state.property.status = StatusConfig.LOADED
     },
     setExams (state, response) {

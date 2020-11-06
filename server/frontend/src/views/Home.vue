@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div v-show="is_loading">
       Loading...
     </div>
