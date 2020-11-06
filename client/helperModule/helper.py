@@ -17,6 +17,7 @@ start = 0 # the time to clear the queue.
 # TODO : return the examinee_id
 def load_userid():
     return main.examinee_id
+
 def load_examid():
     return main.exam_id
 

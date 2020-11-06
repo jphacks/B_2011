@@ -6,7 +6,7 @@ from helperModule import helper
 from plyer import notification
 import pyperclip
 
-def monitor(exam_id, tester_id, tester_name, examinee_id):
+def monitor():
     previous = pyperclip.paste()
 
     while True:
@@ -15,10 +15,6 @@ def monitor(exam_id, tester_id, tester_name, examinee_id):
             if now != previous:
                 previous = now
                 helper.send_json(
-                    exam_id=exam_id,
-                    tester_id=tester_id,
-                    tester_name=tester_name,
-                    examinee_id=examinee_id,
                     module_name="clipboard",
                     alert="True",
                     description="This guy is copying something!",
