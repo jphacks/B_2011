@@ -11,27 +11,26 @@
 <script>
 import Vue from 'vue'
 import ListAlerts from '@/components/ListAlerts.vue'
-import Store from '@/models/Store.ts'
 import StatusConfig from '@/config/Status.ts'
 
 export default Vue.extend({
   name: 'Exam Report',
-  data: function () {
-    return {
-      alerts: Store.state.property.alert_data
-    }
+  created: function () {
+    const exam_id = this.$route.params.exam_id || ''
+    this.$store.commit('setExamId', exam_id)
+    this.$store.dispatch('getExamAlerts')
+  },
+  components: {
+    ListAlerts
   },
   computed: {
     is_loading: function () {
-      return Store.state.property.status === StatusConfig.INITIALIZE
+      return this.$store.getters.status === StatusConfig.INITIALIZE
+    },
+    alerts: function () {
+      return this.$store.getters.alert_data
     }
   }
 })
-
-const exam_id = this.$route.params.exam_id || 0
-Store.commit('setExamId', exam_id)
-Store.dispatch('getExamAlerts')
-
-Vue.component('ListAlerts', ListAlerts)
 
 </script>

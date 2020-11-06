@@ -13,18 +13,32 @@ const PropertyStore = new Vuex.Store({
       status: StatusConfig.INITIALIZE
     }
   },
+  getters: {
+    exam_id: state => {
+      return state.property.exam_id
+    },
+    examinee_id: state => {
+      return state.property.examinee_id
+    },
+    alert_data: state => {
+      return state.property.alert_data
+    },
+    exam_list: state => {
+      return state.property.exam_list
+    },
+    status: state => {
+      return state.property.status
+    }
+  },
   mutations: {
     setAlerts (state, response) {
-      // TODO: is the response valid form?
       state.property.alert_data = JSON.parse(response).alert_data
       state.property.status = StatusConfig.LOADED
     },
     setExams (state, response) {
-      // TODO: is the response valid form
       console.log(JSON.parse(response))
-      state.property.exam_list = JSON.parse(response).data
+      state.property.alert_data = JSON.parse(response).data
       state.property.status = StatusConfig.LOADED
-      console.log(state)
     },
     setExamId (state, id) {
       state.property.exam_id = id
@@ -41,6 +55,8 @@ const PropertyStore = new Vuex.Store({
           if (res.status === 200) {
             return res.json()
           }
+        }).then(res => {
+          commit('setAlerts', res)
         })
         .then(res => {
             commit('setAlerts', res)
@@ -55,6 +71,8 @@ const PropertyStore = new Vuex.Store({
           if (res.status === 200) {
             return res.json()
           }
+        }).then(res => {
+          commit('setAlerts', res)
         })
         .then(res => {
             commit('setAlerts', res)
@@ -68,6 +86,8 @@ const PropertyStore = new Vuex.Store({
           if (res.status === 200) {
             return res.json()
           }
+        }).then(res => {
+          commit('setExams', res)
         })
         .then(res => {
           console.log(res)

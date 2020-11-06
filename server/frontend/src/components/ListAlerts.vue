@@ -5,7 +5,7 @@
   >
     <v-list-item v-repeat="alerts">
       <v-list-item-content>
-        <router-link :to="{ name: 'Examinee Report', params: { examinee_id: examinee_id }}">
+        <router-link :to="{ name: 'examinee_report', params: { examinee_id: examinee_id }}">
           <v-alert type='error'>
             {{examinee_id}}
             {{module_name}}
@@ -22,9 +22,10 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ListAlerts',
-  data: function () {
-    return {
-      alerts: this.$parent.alerts
+  computed: {
+    alerts: function () {
+      console.log('alerts:', this.$parent.alerts)
+      return this.$parent.alerts
     }
   }
 })
