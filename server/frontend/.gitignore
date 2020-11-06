@@ -4,8 +4,14 @@ node_modules
 
 
 # local env files
-.env.prod
+<<<<<<< HEAD
+.env.production
 .env.*.local
+=======
+.env.local
+.env.development
+.env.production
+>>>>>>> 5ea18e6623e7af81a8d115e1677d92349f6ff210
 
 # Log files
 npm-debug.log*

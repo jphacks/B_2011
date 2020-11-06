@@ -5,7 +5,7 @@
   >
     <v-list-item v-repeat="alerts">
       <v-list-item-content>
-        <router-link to='/examinees/{{examinee_id}}'>
+        <router-link :to="{ name: 'Examinee Report', params: { examinee_id: examinee_id }}">
           <v-alert type='error'>
             {{examinee_id}}
             {{module_name}}

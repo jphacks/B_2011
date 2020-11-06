@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import StatusConfig from '@/config/Status.ts'
 Vue.use(Vuex)
 
@@ -17,13 +16,15 @@ const PropertyStore = new Vuex.Store({
   mutations: {
     setAlerts (state, response) {
       // TODO: is the response valid form?
-      state.property.alert_data = response.data.alert_data
+      state.property.alert_data = JSON.parse(response).alert_data
       state.property.status = StatusConfig.LOADED
     },
     setExams (state, response) {
-      // TODO: is the response valid form?
-      state.property.exam_list = response.data.exam_list
+      // TODO: is the response valid form
+      console.log(JSON.parse(response))
+      state.property.exam_list = JSON.parse(response).data
       state.property.status = StatusConfig.LOADED
+      console.log(state)
     },
     setExamId (state, id) {
       state.property.exam_id = id
@@ -34,28 +35,41 @@ const PropertyStore = new Vuex.Store({
   },
   actions: {
     getExamAlerts ({ commit }) {
-      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/message/?exam_id=' + this.state.property.exam_id)
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?exam_id=' + this.state.property.exam_id, {mode:'cors'})
         .then(res => {
           if (res.status === 200) {
-            commit('setAlerts', res)
+            return res.json()
           }
         })
+        .then(res => {
+            commit('setAlerts', res)
+          }
+        )
+
     },
     getExamineeAlerts ({ commit }) {
-      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/message/?examinee_id=' + this.state.property.examinee_id)
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/list?examinee_id=' + this.state.property.examinee_id, {mode:'cors'})
         .then(res => {
           if (res.status === 200) {
+            return res.json()
+          }
+        })
+        .then(res => {
             commit('setAlerts', res)
           }
-        })
+        )
     },
     getExamList ({ commit }) {
-      axios.get(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list')
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {mode:'cors'})
         .then(res => {
           if (res.status === 200) {
-            commit('setExams', res)
+            return res.json()
           }
         })
+        .then(res => {
+          commit('setExams', res)
+          }
+        )
     }
   }
 })
