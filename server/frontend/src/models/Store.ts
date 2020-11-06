@@ -70,6 +70,7 @@ const PropertyStore = new Vuex.Store({
           }
         })
         .then(res => {
+          console.log(res)
           commit('setExams', res)
           }
         )

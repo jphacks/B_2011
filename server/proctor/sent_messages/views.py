@@ -34,21 +34,19 @@ class MessageListAPIView(APIView):
         query_param_examinee_id = request.GET.get('examinee_id')
         query_param_exam_id = request.GET.get('exam_id')
         if query_param_examinee_id:
-            descriptions = Message.objects\
+            messages = Message.objects\
                 .filter(examinee_id=query_param_examinee_id)\
-                .filter(alert=True)\
-                .values_list('description', flat=True)
-            descriptions = list(descriptions)
-            data = {'alert_data': descriptions}
+                .filter(alert=True)
+            serializer = MessageSerializer(messages, many=True)
+            data = {'alert_data': serializer.data}
             return Response(json.dumps(data), status=status.HTTP_200_OK)
 
         if query_param_exam_id:
-            descriptions = Message.objects \
+            messages = Message.objects \
                 .filter(exam_id=query_param_exam_id) \
-                .filter(alert=True) \
-                .values_list('description', flat=True)
-            descriptions = list(descriptions)
-            data = {'alert_data': descriptions}
+                .filter(alert=True)
+            messages = MessageSerializer(messages, many=True)
+            data = {'alert_data':  messages}
             return Response(json.dumps(data), status=status.HTTP_200_OK)
 
         return Response(None, status=status.HTTP_400_BAD_REQUEST)

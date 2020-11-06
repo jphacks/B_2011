@@ -11,8 +11,8 @@ class ExamAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
 
-        message = Exam.objects.get(*args, **kwargs)
-        serializer = ExamSerializer(message)
+        exam = Exam.objects.get(*args, **kwargs)
+        serializer = ExamSerializer(exam)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
