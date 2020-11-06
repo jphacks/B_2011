@@ -27,7 +27,7 @@ def main():
     # create threads
     threads = [
             threading.Thread(target=sampling_pics.sampling_pics),
-            threading.Thread(target=calc_similarity.calc_similarity)
+            threading.Thread(target=calc_similarity.calc_similarity),
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
             threading.Thread(target=electron_server.createServer),
