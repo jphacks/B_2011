@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import test, summon_voice_text_window, clipboard_monitor, active_window_monitor
+from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor
 
 exam_id = "123abc"
 tester_id = "789xyz"
@@ -27,7 +27,6 @@ def main():
 
     # create threads
     threads = [
-            threading.Thread(target=test.hoge),
             threading.Thread(target=clipboard_monitor.monitor, args=([exam_id, tester_id, tester_name, examinee_id])),
             threading.Thread(target=active_window_monitor.monitor, args=([exam_id, tester_id, tester_name, examinee_id]))
     ]
