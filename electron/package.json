@@ -1,7 +1,7 @@
 {
-  "name": "my_electron_app",
+  "name": "Vega",
   "version": "1.0.0",
-  "description": "my first electron app",
+  "description": "Innovating the experience of online exams",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -12,7 +12,7 @@
     "make-linux": "electron-forge make --platform linux --targets deb"
   },
   "keywords": [],
-  "author": "yuasabe",
+  "author": "Vega team",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
@@ -40,7 +40,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "my_electron_app"
+            "name": "Vega"
           }
         },
         {
