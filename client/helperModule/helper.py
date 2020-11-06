@@ -23,10 +23,12 @@ def load_examid():
 
 # call first.
 def init_time():
+    global start
     start = time.time()
 
 # 定期的にmain.pyから呼ばれる必要がある。
 def time_passed():
+    global start, send_interval, que
     now = time.time()
     if (now - start >= send_interval) and (que.qsize() > 0):
         send_json_to_server()
@@ -34,17 +36,21 @@ def time_passed():
         start = now
 
 def send_json_to_server():
-    que = list(que.queue) # dumpするときにlistに変換
-    dumped_json = json.dumps(que)
-    requests.get(
+    global que, server_url
+    list_que = list(que.queue) # dumpするときにlistに変換
+    dumped_json = json.dumps(list_que)
+    logging.debug(dumped_json)
+    requests.post(
         url = server_url,
-        params = dumped_json
+        data = dumped_json,
+        headers={'Content-Type': 'application/json'}
     )
 
 # push json data to queue
 def push_to_queue(json_data):
     que.put(json_data)
-    
+
+# TODO : fix the alert from bool to string
 def send_json(module_name: str, alert: bool, description: str = '', content: str = ''):
     user_id = load_userid()
     exam_id = load_examid()
@@ -52,7 +58,7 @@ def send_json(module_name: str, alert: bool, description: str = '', content: str
         "examinee_id" : user_id,
         "exam_id" : exam_id,
         "module_name" : module_name,
-        "alert" : alert,
+        "alert" : "True",
         "description" : description,
         "content" : content,
     }

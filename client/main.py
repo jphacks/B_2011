@@ -6,15 +6,18 @@
 import sys
 import threading
 import logging
+import uuid
 # import modules
 from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, electron_server, sampling_pics, calc_similarity
 from testModule.voice import voice_anomaly_detection
+from helperModule import helper
 
-exam_id = "123abc"
-examinee_id = "456efg"
+exam_id = str(uuid.uuid4())
+examinee_id = str(uuid.uuid4())
 
-def terminate():
+def daemon():
     while True:
+        helper.time_passed()
         try:
             pass
         except KeyboardInterrupt:
@@ -31,14 +34,17 @@ def main():
             threading.Thread(target=active_window_monitor.monitor),
             threading.Thread(target=electron_server.createServer),
             threading.Thread(target=electron_server.startElectron),
-            threading.Thread(target=voice_anomaly_detection.anomaly_detection)
+            # threading.Thread(target=voice_anomaly_detection.anomaly_detection)
     ]
     # call threads
     for t in threads:
         t.setDaemon(True)
         t.start()
+    
+    helper.init_time()
+
     # make Ctrl+C kill all processes
-    terminate()
+    daemon()
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG, format='%(threadName)s: %(message)s')
