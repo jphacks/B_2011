@@ -25,7 +25,7 @@ def main():
             # threading.Thread(target=test.hoge),
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
-            threading.Thread(target=voice.voice-anomaly-detection.anomaly_detection)
+            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection)
     ]
     # call threads
     for t in threads:
