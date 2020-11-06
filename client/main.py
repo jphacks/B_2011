@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 # import modules
-from testModule import test, summon_voice_text_window, clipboard_monitor, active_window_monitor, voice.voice_anomaly_detection
+from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, voice.voice_anomaly_detection
 
 exam_id = "123abc"
 tester_id = "789xyz"
