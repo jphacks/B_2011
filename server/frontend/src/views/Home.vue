@@ -4,7 +4,9 @@
     <div v-show="is_loading">
       Loading...
     </div>
-    <ListExams v-show="!is_loading"/>
+    <ListExams
+      v-show="!is_loading"
+      :exam_list="exam_list" />
   </div>
 </template>
 
@@ -16,6 +18,11 @@ import StatusConfig from '@/config/Status.ts'
 
 export default Vue.extend({
   name: 'Home',
+  data: function () {
+    return {
+      exam_list: Store.state.property.exam_list
+    }
+  },
   computed: {
     is_loading: function () {
       return Store.state.property.status === StatusConfig.INITIALIZE
