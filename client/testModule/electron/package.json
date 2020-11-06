@@ -27,7 +27,9 @@
   },
   "dependencies": {
     "active-win": "^6.2.0",
+    "capture-video-frame": "^1.0.0",
     "clipboardy": "^2.3.0",
+    "data-uri-to-buffer": "^3.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "face-api.js": "^0.22.2"
   },
