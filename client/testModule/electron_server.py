@@ -1,6 +1,7 @@
 from socketserver import TCPServer, BaseRequestHandler
 import json
 import subprocess
+import threading
 from helperModule import helper
 
 class EchoHandler(BaseRequestHandler):
@@ -19,9 +20,10 @@ class EchoHandler(BaseRequestHandler):
 def createServer():
     address = ('localhost', 54321)
     TCPServer.allow_reuse_address = True
-    # exec electron
-    subprocess.call('npm start', cwd=r'./electron')
     # create tcp server
     with TCPServer(address, EchoHandler) as server:
         server.serve_forever()
+
+def startElectron():
+    subprocess.call('npm start', cwd=r'./testModule/electron', shell=True)
 

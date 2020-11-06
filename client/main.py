@@ -8,7 +8,7 @@ import threading
 import logging
 # import modules
 from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, electron_server
-# from testModule.voice import voice_anomaly_detection
+from testModule.voice import voice_anomaly_detection
 
 exam_id = "123abc"
 tester_id = "789xyz"
@@ -24,14 +24,15 @@ def terminate():
 
 def main():
     # record voice first
-    # summon_voice_text_window.record()
+    summon_voice_text_window.record()
 
     # create threads
     threads = [
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
-            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection)
+            threading.Thread(target=voice.voice_anomaly_detection.anomaly_detection),
             threading.Thread(target=electron_server.createServer),
+            threading.Thread(target=electron_server.startElectron)
     ]
     # call threads
     for t in threads:
