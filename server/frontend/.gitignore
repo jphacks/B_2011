@@ -1,0 +1,29 @@
+.DS_Store
+node_modules
+/dist
+
+
+# local env files
+<<<<<<< HEAD
+.env.production
+.env.*.local
+=======
+.env.local
+.env.development
+.env.production
+>>>>>>> 5ea18e6623e7af81a8d115e1677d92349f6ff210
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

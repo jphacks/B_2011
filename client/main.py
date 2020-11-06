@@ -7,7 +7,7 @@ import sys
 import threading
 import logging
 import uuid
-# import modules
+
 from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, electron_server, sampling_pics, calc_similarity
 from testModule.voice import voice_anomaly_detection
 from helperModule import helper
@@ -29,6 +29,7 @@ def main():
 
     # create threads
     threads = [
+            threading.Thread(target=sampling_pics.sampling_pics),
             threading.Thread(target=calc_similarity.calc_similarity),
             threading.Thread(target=clipboard_monitor.monitor),
             threading.Thread(target=active_window_monitor.monitor),
