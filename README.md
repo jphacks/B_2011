@@ -1,6 +1,6 @@
 # SATORI
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2020/09/JPHACKS2020_ogp.jpg)](https://www.youtube.com/watch?v=G5rULR53uMk)
+[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/11728101/98431076-b0c97080-20f5-11eb-8f8f-eae77f3b234e.png)](https://www.youtube.com/watch?v=G5rULR53uMk)
 
 ## 製品概要
 SATORIは、ユーザーのプライバシーや通信環境に配慮した、オンライン試験カンニング防止プラットフォームを提供するサービスです。
@@ -66,8 +66,6 @@ COVID-19の影響により様々な試験がオンライン化し、大学4年�
 ### 独自技術
 #### ハッカソンで開発した独自機能・技術
 * クリップボードやアクティブウィンドウの切り替えによるカンニング検知。
-* 独自で開発したものの内容をこちらに記載してください
-* 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください。
 
 #### 製品に取り入れた研究内容（データ・ソフトウェアなど）（※アカデミック部門の場合のみ提出必須）
 * 
