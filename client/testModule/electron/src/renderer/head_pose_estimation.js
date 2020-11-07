@@ -1,3 +1,6 @@
+const net = require('net')
+const request = require('request');
+
 navigator.mediaDevices.getUserMedia({
     video: true,
     audio: false,
@@ -79,11 +82,41 @@ async function detect() {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the left. Please focus on the screen.'
         })
+        var options = {
+            uri: "http://demo.ben.hongo.wide.ad.jp:8000/api/message/list",
+            headers: {
+              "Content-type": "application/json",
+            },
+            json: [{
+              "examinee_id": "ee6b3ea2-8858-4cc3-a413-3dde08055225",
+              "exam_id": "911f6e61-e061-4be9-9f25-246e1fb16207",
+              "module_name": 'electron_head_position',
+              'alert': 'True',
+              'description': 'User is looking to the left',
+              'content': 'yaw: ' + String(yaw)
+            }]
+        };
+        request.post(options, function(error, response, body){});
         yaw_left_count = 0
     } else if (yaw_right_count > 20) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the right. Please focus on the screen.'
         })
+        var options = {
+            uri: "http://demo.ben.hongo.wide.ad.jp:8000/api/message/list",
+            headers: {
+              "Content-type": "application/json",
+            },
+            json: [{
+              "examinee_id": "ee6b3ea2-8858-4cc3-a413-3dde08055225",
+              "exam_id": "911f6e61-e061-4be9-9f25-246e1fb16207",
+              "module_name": 'electron_head_position',
+              'alert': 'True',
+              'description': 'User is looking to the right',
+              'content': 'yaw: ' + String(yaw)
+            }]
+        };
+        request.post(options, function(error, response, body){});
         yaw_right_count = 0
     }
 }
