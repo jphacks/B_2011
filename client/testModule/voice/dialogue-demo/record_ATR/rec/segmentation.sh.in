@@ -1,0 +1,56 @@
+#!/bin/bash
+# Segmenatation using "segment.pl"
+#
+#
+
+# awk, perl, and wc
+AWK=@AWK@;
+PERL=@PERL@;
+WC=@WC@;
+
+# SPTK bin
+X2X=@X2X@;
+FRAME=@FRAME@;
+WINDOW=@WINDOW@;
+MCEP=@MCEP@;
+DMP=@DMP@;
+
+# CHECK ARGUMENTS
+num=50
+
+# CHECK THE NUMBER OF SPEECH FILES
+fnum=$(ls @PWD@/data/wav | $WC -l)
+
+pwddir=`pwd`
+if [ "@PWD@/rec" != $pwddir ];then
+	echo "You should execute this script at @PWD@/rec"
+	exit 1
+fi
+
+if [ $fnum -ne $num ];then
+	echo "The # of files is $fnum / $num";
+	echo "Please record!!"
+	exit 1
+fi
+
+# segmentation #
+for file in ../data/wav/* ; do
+	outname1=../data/labels/mono/$(basename $file .wav).tmp
+	outname2=../data/labels/mono/@DATASET@_@SPEAKER@_$(basename $file .wav).lab
+	labname=reference/monophone/$(basename $file .wav).lab
+	@PERL@ segment.pl $file $labname $outname1 
+	
+	# post processing
+	vecnum=$( $X2X +sf $file | $FRAME  -l 400 -p 80 | $WINDOW -l 400 -L 512 -w 1 | $MCEP -a 0.42 -m 12 -l 512 | $DMP +f | $WC -l );
+        samplenum=$(( vecnum / 13 ))	
+ 	samplelen=$(( samplenum * 50000)) ; 
+	linenum=$(cat $outname1 | $WC -l);
+	head -n $(( linenum - 1 )) $outname1 > $outname2
+	( echo -n "$samplelen " ; tail -n 1 $outname1 ) | @AWK@ '{print $2,$1,$4}' >> $outname2 ;
+	rm -f $outname1 ;
+	rawname=@PWD@/data/raw/@DATASET@_@SPEAKER@_$(basename $file .wav).raw
+	@SOX@ $file $rawname
+	echo "$file done.";
+done
+# remove tmp directory
+rm -rf @PWD@/rec/tmp
