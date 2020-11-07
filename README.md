@@ -1,6 +1,6 @@
 # SATORI
 
-[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/11728101/98431076-b0c97080-20f5-11eb-8f8f-eae77f3b234e.png)](https://www.youtube.com/watch?v=G5rULR53uMk)
+[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/11728101/98431076-b0c97080-20f5-11eb-8f8f-eae77f3b234e.png)](https://www.youtube.com/watch?v=2jz1X7wGoXg&feature=youtu.be)
 
 ## 製品概要
 SATORIは、ユーザーのプライバシーや通信環境に配慮した、オンライン試験カンニング防止プラットフォームを提供するサービスです。
