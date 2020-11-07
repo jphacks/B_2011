@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+    <h1>試験一覧</h1>
     <div v-show="is_loading">
       Loading...
     </div>

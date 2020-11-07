@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>受験者 {{ examinee_id }} についてのアラート</h1>
     <div v-show="is_loading">
       Loading...
     </div>
@@ -24,11 +25,14 @@ export default Vue.extend({
     this.$store.dispatch('getExamineeAlerts')
   },
   computed: {
+    examinee_id: function () {
+      return this.$route.params.examinee_id
+    },
     is_loading: function () {
       return this.$store.getters.status === StatusConfig.INITIALIZE
     },
     alerts: function () {
-      return this.$store.getters.property.alert_data
+      return this.$store.getters.alert_data
     }
   }
 })

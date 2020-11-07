@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>試験 {{ exam_id }} についてのアラート</h1>
     <div v-show="is_loading">
       Loading...
     </div>
@@ -24,6 +25,9 @@ export default Vue.extend({
     ListAlerts
   },
   computed: {
+    exam_id: function () {
+      return this.$route.params.exam_id
+    },
     is_loading: function () {
       return this.$store.getters.status === StatusConfig.INITIALIZE
     },

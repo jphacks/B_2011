@@ -74,7 +74,7 @@ const PropertyStore = new Vuex.Store({
         )
     },
     getExamList ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/examlist', {
         mode: 'cors'
       }).then(res => {
           if (res.status === 200) {
