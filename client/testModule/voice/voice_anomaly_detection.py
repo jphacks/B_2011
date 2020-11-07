@@ -16,7 +16,7 @@ FORMAT = pyaudio.paInt16 # 16bit
 CHANNELS = 1             # monaural
 RATE = 44100             # sampling frequency [Hz]
 
-threshold = 0.10         # 音量の閾値
+threshold = 0.30         # 音量の閾値
 
 def anyone_speaking():
     p = pyaudio.PyAudio()
@@ -35,53 +35,77 @@ def anyone_speaking():
             print(x.max())
             return True
 
-def record():
-    rec_time = 5 # record time [s]
-    # TODO : test. あとで消す。
+# def record():
+#     rec_time = 5 # record time [s]
+#     # TODO : test. あとで消す。
 
-    now = datetime.datetime.now()
-    filename = 'log_' + now.strftime('%Y%m%d_%H%M%S')
-    log_path = './log/' + filename + '.wav'
+#     now = datetime.datetime.now()
+#     filename = 'log_' + now.strftime('%Y%m%d_%H%M%S')
+#     log_path = './log/' + filename + '.wav'
 
-    # TODO : なぜかここで出力される原因の究明
-    p = pyaudio.PyAudio()
+#     # TODO : なぜかここで出力される原因の究明
+#     p = pyaudio.PyAudio()
 
-    stream = p.open(format=FORMAT,
-                    channels=CHANNELS,
-                    rate=RATE,
-                    input=True,
-                    input_device_index = DEVICE_INDEX,
-                    frames_per_buffer=CHUNK)
+#     stream = p.open(format=FORMAT,
+#                     channels=CHANNELS,
+#                     rate=RATE,
+#                     input=True,
+#                     input_device_index = DEVICE_INDEX,
+#                     frames_per_buffer=CHUNK)
 
-    frames = []
-    for i in range(0, int(RATE / CHUNK * rec_time)):
-        data = stream.read(CHUNK)
-        frames.append(data)
+#     frames = []
+#     for i in range(0, int(RATE / CHUNK * rec_time)):
+#         data = stream.read(CHUNK)
+#         frames.append(data)
 
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
+#     stream.stop_stream()
+#     stream.close()
+#     p.terminate()
 
-    wf = wave.open(log_path, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+#     wf = wave.open(log_path, 'wb')
+#     wf.setnchannels(CHANNELS)
+#     wf.setsampwidth(p.get_sample_size(FORMAT))
+#     wf.setframerate(RATE)
+#     wf.writeframes(b''.join(frames))
+#     wf.close()
 
-    return log_path, filename
+#     return log_path, filename
+
+# def get():
+#     # TODO : URLを指定する。
+#     url = 'http://demo.ben.hongo.wide.ad.jp:8000/api/message/list'
+#     module_name = "voice"
+#     alert = True
+#     description = "本人ではない人の声を検出しました。"
+#     content = ""
+
+#     helper.send_json(module_name, alert, description, content)
 
 def get():
     # TODO : URLを指定する。
     url = 'http://demo.ben.hongo.wide.ad.jp:8000/api/message/list'
     module_name = "voice"
     alert = True
-    description = "本人ではない人の声を検出しました。"
+    description = "大きな音を検出しました。"
     content = ""
 
     helper.send_json(module_name, alert, description, content)
 
 def anomaly_detection():
+    if os.path.exists('output'):
+        shutil.rmtree('output')
+    if os.path.exists('log'):
+        shutil.rmtree('log')
+    os.mkdir('log')
+    os.mkdir('output')
+
+    # 以下は試験中フェーズ
+    while True:
+        # TODO : 音量がしきい値を超えたら録音スタート
+        if anyone_speaking() == True:
+            get()
+
+""" def anomaly_detection():
     if os.path.exists('output'):
         shutil.rmtree('output')
     if os.path.exists('log'):
@@ -105,3 +129,4 @@ def anomaly_detection():
             # 暫定でkanayaの声でない場合アラートを出す。
             if s != '1':
                 get()
+ """
