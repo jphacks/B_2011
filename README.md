@@ -58,7 +58,7 @@ COVID-19の影響により様々な試験がオンライン化し、大学4年�
 #### フレームワーク・ライブラリ・モジュール
 * django
 * vue
-* win32api
+* win32gui
 * opencv
 * electron
 
