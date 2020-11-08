@@ -6,7 +6,12 @@
 import sys
 import threading
 import logging
-from testModule import sampling_pics, calc_similarity, test, summon_voice_text_window, clipboard_monitor, active_window_monitor
+
+from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, electron_server, sampling_pics, calc_similarity
+from testModule.voice import voice_anomaly_detection
+
+exam_id = "123abc"
+examinee_id = "456efg"
 
 def terminate():
     while True:
@@ -23,9 +28,11 @@ def main():
     threads = [
             threading.Thread(target=sampling_pics.sampling_pics),
             threading.Thread(target=calc_similarity.calc_similarity)
-            threading.Thread(target=test.hoge),
             threading.Thread(target=clipboard_monitor.monitor),
-            threading.Thread(target=active_window_monitor.monitor)
+            threading.Thread(target=active_window_monitor.monitor),
+            threading.Thread(target=electron_server.createServer),
+            threading.Thread(target=electron_server.startElectron),
+            threading.Thread(target=voice_anomaly_detection.anomaly_detection)
     ]
     # call threads
     for t in threads:

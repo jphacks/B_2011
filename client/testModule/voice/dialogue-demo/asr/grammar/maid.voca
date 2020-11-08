@@ -1,0 +1,29 @@
+% NAME
+今日	ky o:
+東京	t o: ky o:
+君	k i m i
+
+% OBJECT
+天気	t e N k i
+オススメ  o s u s u m e
+あれ	  a r e
+
+% FILL_E
+は？	w a
+
+% FILL_B
+えー	e: 
+えーと	e: t o 
+えーと	e: q t o 
+あのー	a n o: 
+
+% ADBERB
+の	n o
+
+## 無音用エントリ
+% NS_B			# 文頭無音
+silB		silB
+% NS_E			# 文末無音
+silE		silE
+% NOISE			# 文中ショートポーズ
+sp		sp
