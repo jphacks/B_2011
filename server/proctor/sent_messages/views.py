@@ -58,3 +58,13 @@ class MessageListAPIView(APIView):
 
         return Response(None, status=status.HTTP_201_CREATED)
 
+
+class ExamIdListAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+
+        exam_list = list(Message.objects.all().values_list('exam_id', flat=True).distinct())
+        exam_list = list(map(str, exam_list))
+        data = {'data': exam_list}
+        return Response(json.dumps(data), status=status.HTTP_200_OK)
+

@@ -7,9 +7,9 @@
       <v-list-item-content>
         <router-link :to="{ name: 'examinee_report', params: { examinee_id: examinee_id }}">
           <v-alert type='error'>
+            'ok'
             {{examinee_id}}
             {{module_name}}
-            {{alert}}
             {{description}}
           </v-alert>
         </router-link>
@@ -24,7 +24,6 @@ export default Vue.extend({
   name: 'ListAlerts',
   computed: {
     alerts: function () {
-      console.log('alerts:', this.$parent.alerts)
       return this.$parent.alerts
     }
   }

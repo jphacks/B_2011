@@ -32,6 +32,7 @@ const PropertyStore = new Vuex.Store({
   },
   mutations: {
     setAlerts (state, response) {
+      console.log(JSON.parse(response))
       state.property.alert_data = JSON.parse(response).alert_data
       state.property.status = StatusConfig.LOADED
     },
@@ -74,7 +75,7 @@ const PropertyStore = new Vuex.Store({
         )
     },
     getExamList ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/list', {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/examlist', {
         mode: 'cors'
       }).then(res => {
           if (res.status === 200) {
