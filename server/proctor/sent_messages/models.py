@@ -14,5 +14,5 @@ class Message(models.Model):
     module_name = models.CharField(max_length=100, blank=True, null=True)
     alert = models.BooleanField(default=False)
     description = models.CharField(max_length=200, default=None, null=True)
-    content = models.CharField(max_length=500, default=None, null=True)
+    content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
