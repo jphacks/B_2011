@@ -56,13 +56,13 @@ function showNotification(title, body, module) {
     }
     new Notification(notification).show()
     // send to python server
-    // const client = net.connect('54321', 'localhost', () => {
-    //   const content = {
-    //     module,
-    //     msg: title
-    //   };
-    //   client.write(JSON.stringify(content));
-    // });
+    const client = net.connect('54321', 'localhost', () => {
+      const content = {
+        module,
+        msg: title
+      };
+      client.write(JSON.stringify(content));
+    });
 }
 
 app.whenReady().then(createWindow).then(showNotification)

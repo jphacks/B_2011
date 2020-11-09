@@ -3,12 +3,14 @@ import json
 import subprocess
 import threading
 from helperModule import helper
+import logging
 
 class EchoHandler(BaseRequestHandler):
     def handle(self):
         msg_b = self.request.recv(1024)
         msg_s = msg_b.decode('utf-8')
         dat = json.loads(msg_s)
+        logging.debug(dat)
         if dat != {}:
             helper.send_json(
                 module_name=(dat['module'] if 'module' in dat else ''),

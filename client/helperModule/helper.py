@@ -1,66 +1,51 @@
 import logging
 import json
 import requests
-import queue
-import time
 import sys
 import os
 sys.path.append(os.path.abspath('..'))
 import main
+import websocket
 
 server_url = "http://demo.ben.hongo.wide.ad.jp:8000/api/message/list"
-que = queue.Queue() # thread safe
-send_interval = 10 # [sec]
-start = 0 # the time to clear the queue.
+websocket.enableTrace(True)
 
-# load user id
-# TODO : return the examinee_id
-def load_userid():
-    return main.examinee_id
+ws = None
+exam_id = ''
+examinee_id = ''
 
-def load_examid():
-    return main.exam_id
+def on_message(ws, message):
+    logging.debug(message)
 
-# call first.
-def init_time():
-    global start
-    start = time.time()
+def on_error(ws, error):
+    logging.debug('websocket connection closed on error)')
 
-# 定期的にmain.pyから呼ばれる必要がある。
-def time_passed():
-    global start, send_interval, que
-    now = time.time()
-    if (now - start >= send_interval) and (que.qsize() > 0):
-        send_json_to_server()
-        que = queue.Queue()
-        start = now
+def on_close(ws):
+    logging.debug('websocket connection closed')
 
-def send_json_to_server():
-    global que, server_url
-    list_que = list(que.queue) # dumpするときにlistに変換
-    dumped_json = json.dumps(list_que)
-    logging.debug(dumped_json)
-    requests.post(
-        url = server_url,
-        data = dumped_json,
-        headers={'Content-Type': 'application/json'}
-    )
-
-# push json data to queue
-def push_to_queue(json_data):
-    que.put(json_data)
-
+ws = None
 # TODO : fix the alert from bool to string
 def send_json(module_name: str, alert: bool, description: str = '', content: str = ''):
-    user_id = load_userid()
-    exam_id = load_examid()
+    global exam_id, examinee_id, ws
+    logging.debug(exam_id)
     json_data = {
-        "examinee_id" : user_id,
+        "examinee_id" : examinee_id,
         "exam_id" : exam_id,
         "module_name" : module_name,
         "alert" : "True",
         "description" : description,
         "content" : content,
     }
-    push_to_queue(json_data)
-    
+    json_data = json.dumps(json_data)
+    logging.debug(json_data)
+    ws.send(json_data)
+
+#start websocket connection to server    
+def run_websocket():
+    global examinee_id, ws
+    logging.debug(examinee_id)
+    ws = websocket.WebSocketApp('ws://localhost:8000/ws/examinee/'+ examinee_id,
+							  on_message = on_message,
+							  on_error = on_error,
+							  on_close = on_close)
+    ws.run_forever()
