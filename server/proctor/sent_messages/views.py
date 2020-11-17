@@ -35,8 +35,8 @@ class MessageListAPIView(APIView):
         query_param_exam_id = request.GET.get('exam_id')
         if query_param_examinee_id:
             messages = Message.objects\
-                .filter(examinee_id=query_param_examinee_id)\
-                .filter(alert=True)
+                .filter(examinee_id=query_param_examinee_id) \
+                .order_by('-created_at')
             serializer = MessageSerializer(messages, many=True)
             data = {'alert_data': serializer.data}
             return Response(json.dumps(data), status=status.HTTP_200_OK)
@@ -44,7 +44,7 @@ class MessageListAPIView(APIView):
         if query_param_exam_id:
             messages = Message.objects \
                 .filter(exam_id=query_param_exam_id) \
-                .filter(alert=True)
+                .order_by('-created_at')
             serializer = MessageSerializer(messages, many=True)
             data = {'alert_data':  serializer.data}
             return Response(json.dumps(data), status=status.HTTP_200_OK)
@@ -58,13 +58,4 @@ class MessageListAPIView(APIView):
 
         return Response(None, status=status.HTTP_201_CREATED)
 
-
-class ExamIdListAPIView(APIView):
-
-    def get(self, request, *args, **kwargs):
-
-        exam_list = list(Message.objects.all().values_list('exam_id', flat=True).distinct())
-        exam_list = list(map(str, exam_list))
-        data = {'data': exam_list}
-        return Response(json.dumps(data), status=status.HTTP_200_OK)
 

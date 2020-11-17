@@ -28,10 +28,11 @@ class ExamAPIView(APIView):
 class ExamListAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
-
-        exam_list = list(Exam.objects.all().values_list('exam_id', flat=True))
-        exam_list = list(map(str, exam_list))
-        data = {'data': exam_list}
+        exams = Exam.objects.all()
+            #.filter(examinee_id=query_param_examinee_id) \a
+            #.filter(alert=True)
+        serializer = ExamSerializer(exams, many=True)
+        data = {'exam_data': serializer.data}
         return Response(json.dumps(data), status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):

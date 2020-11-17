@@ -10,4 +10,4 @@ class Examinee(models.Model):
 
     examinee_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     exam_id = models.UUIDField()
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
