@@ -31,7 +31,7 @@ app.setAppUserModelId("com.electron.vega")
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 800,
+        width: 1200,
         height: 600,
         webPreferences: {
             nodeIntegration: true
