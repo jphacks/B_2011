@@ -1,15 +1,34 @@
 const net = require('net')
 const request = require('request');
 
+if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+	console.log("enumerateDevices() not supported.");
+}
+
+// List cameras
+navigator.mediaDevices.enumerateDevices().then(devices => {
+    const sel = document.getElementById('camera-device-id');
+    devices.forEach(function(device) {
+        console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+        if (device.kind == 'videoinput') {
+            var opt = document.createElement('option');
+            opt.appendChild(document.createTextNode(device.label));
+            opt.value = device.deviceId;
+            sel.appendChild(opt);
+        }
+    });
+}).catch(err => console.log(err.name + ": " + err.message));
+
+const myDeviceId = document.getElementById('camera-device-id').value;
+
 navigator.mediaDevices.getUserMedia({
-    video: true,
+    video: {deviceId: myDeviceId},
     audio: false,
 }).then(stream => {
     const video = document.getElementById('video');
     video.srcObject = stream;
-});
-
-video.play();
+    video.play();
+}).catch(error => alert('Cannot connect to camera: ' + error));
 
 const faceapi = require('face-api.js')
 
