@@ -4,7 +4,7 @@
   "description": "Innovating the experience of online exams",
   "main": "src/main/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -33,7 +33,8 @@
     "dotenv": "^8.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "face-api.js": "^0.22.2",
-    "python-shell": "^2.0.3"
+    "python-shell": "^2.0.3",
+    "webcamjs": "^1.0.26"
   },
   "config": {
     "forge": {
