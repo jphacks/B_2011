@@ -8,3 +8,13 @@ const clipboard_interval = setInterval(function() {
         showNotification('Copied to Clipboard!', 'Please do not copy during your test.', 'electron-clipboard')
     }
 }, 2000);
+
+function showNotification(title, body, module) {
+    console.log("[notification] " + title + ' ' +  body)
+    const notification = {
+        title: title,
+        body: body,
+        icon: nativeImage.createFromPath(path.join(__dirname, 'satori.png'))
+    }
+    new Notification(notification).show()
+}
