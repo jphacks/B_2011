@@ -1,39 +1,35 @@
-// if (require('electron-squirrel-startup')) return;
+// require('update-electron-app')({
+//     logger: require('electron-log')
+// })
 
-const { app, BrowserWindow, Notification, nativeImage, ipcMain } = require('electron')
+if (require('electron-squirrel-startup')) return;
 
+const { app, BrowserWindow, ipcMain } = require('electron')
 const url = require('url')
 const path = require('path')
+
+app.disableHardwareAcceleration()
 
 app.setAppUserModelId("com.electron.satori")
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1200,
-        height: 600,
+        width: 1080,
+        minWidth: 680,
+        height: 840,
         webPreferences: {
             nodeIntegration: true
         }
     })
 
-    win.loadURL(url.format({
-        pathname: path.join(__dirname, '..' , 'renderer/login.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
+    win.loadURL(path.join('file://', __dirname, '../renderer/login.html'))
 }
 
-function showNotification(title, body, module) {
-    console.log("[notification] " + title + ' ' +  body)
-    const notification = {
-        title: title,
-        body: body,
-        icon: nativeImage.createFromPath(path.join(__dirname, 'satori.png'))
-    }
-    new Notification(notification).show()
-}
+// app.whenReady().then(createWindow)
 
-app.whenReady().then(createWindow)
+app.on('ready', () => {
+    createWindow()
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -47,15 +43,15 @@ app.on('activate', () => {
     }
 })
 
-// let exam_id = '';
-// let user_id = '';
-// ipcMain.on('asynchronous-message', (event, arg) => {
-//     console.log("Exam ID: ", arg.exam_id);
-//     console.log("User ID: ", arg.user_id);
-//     exam_id = arg.exam_id;
-//     user_id = arg.user_id;
-// });
+let exam_id = '';
+let user_id = '';
+ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log("Exam ID: ", arg.exam_id);
+    console.log("User ID: ", arg.user_id);
+    exam_id = arg.exam_id;
+    user_id = arg.user_id;
+});
 
-// ipcMain.on('take_photo', (event, data) => {
-//     event.reply('take_photo', {exam_id: exam_id, user_id: user_id});
-// });
+ipcMain.on('take_photo', (event, data) => {
+    event.reply('take_photo', {exam_id: exam_id, user_id: user_id});
+});
