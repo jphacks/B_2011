@@ -1,7 +1,6 @@
-if (require('electron-squirrel-startup')) return;
-require('dotenv').config()
+// if (require('electron-squirrel-startup')) return;
 
-const { app, BrowserWindow, Notification, nativeImage } = require('electron')
+const { app, BrowserWindow, Notification, nativeImage, ipcMain } = require('electron')
 
 const url = require('url')
 const path = require('path')
@@ -14,14 +13,11 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true
-        },
-        icon: nativeImage.createFromPath(path.join(__dirname, 'satori.png'))
+        }
     })
 
-    // win.loadFile('index.html')
-    // win.webContents.openDevTools()
     win.loadURL(url.format({
-        pathname: path.join(__dirname, '../renderer/login.html'),
+        pathname: path.join(__dirname, '..' , 'renderer/login.html'),
         protocol: 'file:',
         slashes: true
     }))
@@ -50,3 +46,16 @@ app.on('activate', () => {
         createWindow()
     }
 })
+
+// let exam_id = '';
+// let user_id = '';
+// ipcMain.on('asynchronous-message', (event, arg) => {
+//     console.log("Exam ID: ", arg.exam_id);
+//     console.log("User ID: ", arg.user_id);
+//     exam_id = arg.exam_id;
+//     user_id = arg.user_id;
+// });
+
+// ipcMain.on('take_photo', (event, data) => {
+//     event.reply('take_photo', {exam_id: exam_id, user_id: user_id});
+// });
