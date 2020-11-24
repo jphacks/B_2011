@@ -12,6 +12,16 @@ const sleep = async (ms) => {
     });
 };
 
+const showNotification = (title, body, module) => {
+  console.log("[notification] ", title, body);
+  const notification = {
+    title,
+    body,
+    icon: nativeImage.createFromPath(path.join(__dirname, 'satori.png'))
+  };
+  new Notification(notification).show();
+});
+
 /*
 TODO: if you success to execute electron with privilege, this comment should be removed.
 const detectDevices = async () => {
@@ -74,7 +84,7 @@ const detectDevices = async () => {
 };
 */
 
-const testSSH = async (showNotification) => {
+const testSSH = async () => {
     /*
     const { device, ipAddr } = await detectDevices();
     if (device === null) {
@@ -169,4 +179,4 @@ const testSSH = async (showNotification) => {
     }, 5000);
 };
 
-module.exports = testSSH;
+testSSH();
