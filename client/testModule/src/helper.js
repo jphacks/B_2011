@@ -1,3 +1,6 @@
+// helper.js
+// Helper functions for SATORI Desktop App.
+
 const http = require('http')
 
 function send_json(user_id, exam_id, module_name, description, content) {
