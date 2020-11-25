@@ -1,7 +1,5 @@
-const request = require('request');
 const faceapi = require('face-api.js')
 const cv = require('./opencv.js')
-const helper = require('../helper')
 
 if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
 	console.log("enumerateDevices() not supported.");
@@ -102,15 +100,13 @@ async function detect() {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the left. Please focus on the screen.'
         })
-        console.log('[head_pose_estimation] Looking left')
-        helper.send_json("head_pose_estimation", "User is looking left")
+        ipcRenderer.send('head_pose_estimation', { description: 'User is looking left' });
         yaw_left_count = 0
     } else if (yaw_right_count > 40) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the right. Please focus on the screen.'
         })
-        console.log('[head_pose_estimation] Looking right')
-        helper.send_json("head_pose_estimation", "User is looking right")
+        ipcRenderer.send('head_pose_estimation', { description: 'User is looking right' });
         yaw_right_count = 0
     }
 }
