@@ -7,6 +7,7 @@ if (require('electron-squirrel-startup')) return;
 const { app, BrowserWindow, ipcMain } = require('electron')
 const url = require('url')
 const path = require('path')
+const helper = require('../helper')
 
 app.disableHardwareAcceleration()
 
@@ -50,6 +51,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     console.log("User ID: ", arg.user_id);
     exam_id = arg.exam_id;
     user_id = arg.user_id;
+    helper.send_json(user_id, exam_id, "user_log", "User logged in", "User has logged in from desktop App.")
 });
 
 ipcMain.on('take_photo', (event, data) => {
