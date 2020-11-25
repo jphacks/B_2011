@@ -11,10 +11,12 @@ class ExamAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
 
-        exam = Exam.objects.get(*args, **kwargs)
+        exam_id = request.GET.get('exam_id')
+        exam = Exam.objects.get(exam_id=exam_id)
         serializer = ExamSerializer(exam)
+        data = {'exam_data': serializer.data}
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(json.dumps(data), status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
 
