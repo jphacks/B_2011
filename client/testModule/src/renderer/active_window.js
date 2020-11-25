@@ -1,5 +1,5 @@
 const activeWin = require('active-win')
-const helper = require('../helper')
+const { ipcRenderer } = require('electron')
 
 let previous_active_app_title =  (async () => {
     active_app_title = (await activeWin()).title;
@@ -13,7 +13,7 @@ const active_window_interval = setInterval(function() {
             const myNotification = new Notification('Active window changed to ' + current_active_app_title, {
                 body: 'Please do not switch to other apps during your test.'
             })
-            helper.send_json("active_window", "Changed to " + current_active_app_title)
+            ipcRenderer.send('active_window', { description: 'Changed to ' + current_active_app_title });
         }
     })();
 }, 2000);
