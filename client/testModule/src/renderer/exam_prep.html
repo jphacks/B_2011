@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SATORI</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+</head>
+<style>
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    img {
+        display: block;
+        margin: 30px auto;
+        width: 200px;
+    }
+    .container {
+        width: 50%;
+        margin: 20px auto;
+        display: block;
+    }
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 10px 0;
+        margin-bottom: 30px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 18px;
+    }
+    button {
+        background-color: #25d32b;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-size: 20px;
+    }
+    button:hover {
+        opacity: 0.8;
+    }
+    button#exam_start {
+        width: 100px;
+        background: rgb(148, 195, 129);
+    }
+</style>
+<body>
+    <img src="../../images/logo.png" alt="SATORI">
+    <h1>Please prepare for your exam</h1>
+    <p>Exam ID: <span id="exam_id"></span></p>
+    <p>User ID: <span id="user_id"></span></p>
+    <h2>Please access this link: </h2>
+    <button id="exam_link"></button>
+    <h2>When you are ready, press START</h2>
+    <button id="exam_start">START</button>
+    <script src="exam_prep.js"></script>
+</body>
+</html>

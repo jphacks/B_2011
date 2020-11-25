@@ -25,8 +25,8 @@ while(True):
 		sample_encoding = face_recognition.face_encodings(sample_image)[0]
 		result = face_recognition.compare_faces([valid_encoding], sample_encoding)[0]
 		# for debug
-		print('distance is ', result)
-		sys.stdout.flush()
+		# print('distance is ', result)
+		# sys.stdout.flush()
 	except:
 		description = 'any face cannot be detected'
 		# helper.send_json(module_name, True, description, content)

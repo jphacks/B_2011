@@ -1,26 +1,19 @@
-const activeWin = require('active-win');
+const activeWin = require('active-win')
+const helper = require('../helper')
 
 let previous_active_app_title =  (async () => {
     active_app_title = (await activeWin()).title;
 })();
 
 const active_window_interval = setInterval(function() {
-    const current_clipboard = clipboardy.readSync()
     (async () => {
         const current_active_app_title = (await activeWin()).title;
         if (current_active_app_title !== previous_active_app_title) {
             previous_active_app_title = current_active_app_title
-            showNotification('Active window changed to ' + current_active_app_title, 'Please do not switch to other apps during your test.', 'electron-activewindow')
+            const myNotification = new Notification('Active window changed to ' + current_active_app_title, {
+                body: 'Please do not switch to other apps during your test.'
+            })
+            helper.send_json("active_window", "Changed to " + current_active_app_title)
         }
     })();
 }, 2000);
-
-function showNotification(title, body, module) {
-    console.log("[notification] " + title + ' ' +  body)
-    const notification = {
-        title: title,
-        body: body,
-        icon: nativeImage.createFromPath(path.join(__dirname, 'satori.png'))
-    }
-    new Notification(notification).show()
-}

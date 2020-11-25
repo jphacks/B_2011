@@ -38,6 +38,8 @@ document.getElementById("take_photo").addEventListener('click', () => {
                 } else {
                     alert("Image saved succesfully");
                     WebCamera.reset();
+                    // Proceed to next page
+                    document.location.href = "exam_prep.html"
                 }
             });
         });

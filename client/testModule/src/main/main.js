@@ -4,7 +4,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const helper = require('../helper')
 
-app.disableHardwareAcceleration()
+// app.disableHardwareAcceleration()
 
 app.setAppUserModelId("com.electron.satori")
 
@@ -42,8 +42,9 @@ app.on('activate', () => {
 //
 
 // IPC with "login.js"
-let exam_id = '';
-let user_id = '';
+let exam_id = '911f6e61-e061-4be9-9f25-246e1fb16207';
+let user_id = '911f6e61-e061-4be9-9f25-246e1fb16207';
+
 ipcMain.on('asynchronous-message', (event, arg) => {
     console.log("Exam ID: ", arg.exam_id);
     console.log("User ID: ", arg.user_id);
@@ -51,11 +52,22 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     user_id = arg.user_id;
 
     // Send JSON to API server
-    helper.send_json(user_id, exam_id, "user_log", "User logged in", "User has logged in from desktop App.")
+    helper.send_json("user_log", "User logged in", "User has logged in from desktop App.")
 });
 
 // IPC with "take_photo.js"
 ipcMain.on('take_photo', (event, data) => {
     // Send back the exam_id and user_id
     event.reply('take_photo', {exam_id: exam_id, user_id: user_id});
+});
+
+// IPC with "exam_prep.js"
+ipcMain.on('exam_prep', (event, data) => {
+    // Send back the exam_id and user_id
+    event.reply('exam_prep', {exam_id: exam_id, user_id: user_id});
+});
+
+ipcMain.on('get_user_data', (event, data) => {
+    // Send back the exam_id and user_id
+    event.reply('get_user_data', {exam_id: exam_id, user_id: user_id});
 });
