@@ -7,7 +7,7 @@
           tile
           :to="{ name: 'examinee_report', params: { examinee_id: item.examinee_id }}"
         >
-          <v-card-title>受験者ID</v-card-title>
+          <v-card-subtitle>受験者ID</v-card-subtitle>
           <v-card-text>{{item.examinee_id}}</v-card-text>
         </v-card>
       </v-list-item-content>

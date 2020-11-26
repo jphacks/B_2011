@@ -47,7 +47,6 @@ export default Vue.extend({
   name: 'ListAlerts',
   computed: {
     alerts: function () {
-      console.log('alerts:', this.$parent.alerts)
       return this.$parent.alerts
     }
   }

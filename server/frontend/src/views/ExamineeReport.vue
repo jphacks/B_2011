@@ -1,3 +1,4 @@
+import AlertChart from "*.vue"
 <template>
   <div>
     <h1>受験者 {{ examinee_id }} についてのアラート</h1>
@@ -12,9 +13,17 @@
             :examinees="examinees"/>
         </v-col>
         <v-col cols="9">
-          <ListAlerts
-            v-show="!is_loading"
-            :alerts="alerts"/>
+          <v-row>
+            <AlertChart
+              :time_normal_list="time_normal_list"
+              :time_warning_list="time_warning_list"
+              :time_alert_list="time_alert_list"/>
+          </v-row>
+          <v-row>
+            <ListAlerts
+              v-show="!is_loading"
+              :alerts="alerts"/>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -24,25 +33,29 @@
 import Vue from 'vue'
 import ListExaminees from '@/components/ListExaminees.vue'
 import ListAlerts from '@/components/ListAlerts.vue'
+import AlertChart from '@/components/AlertChart.vue'
 import StatusConfig from '@/config/Status.ts'
 
 export default Vue.extend({
   name: 'Examinee Report',
   components: {
     ListExaminees,
-    ListAlerts
+    ListAlerts,
+    AlertChart
   },
   created: function () {
     this.$disconnect()
     const examinee_id = this.$route.params.examinee_id || 0
     this.$store.commit('setExamineeId', examinee_id)
     this.$store.dispatch('getExamineeAlerts')
+    this.$store.dispatch('getTimeListFromExaminee')
   },
   watch: {
     $route () {
       const examinee_id = this.$route.params.examinee_id || 0
       this.$store.commit('setExamineeId', examinee_id)
       this.$store.dispatch('getExamineeAlerts')
+      this.$store.dispatch('getTimeListFromExaminee')
     }
   },
   computed: {
@@ -57,6 +70,15 @@ export default Vue.extend({
     },
     alerts: function () {
       return this.$store.getters.alert_list
+    },
+    time_normal_list: function () {
+      return this.$store.getters.time_normal_list
+    },
+    time_warning_list: function () {
+      return this.$store.getters.time_warning_list
+    },
+    time_alert_list: function () {
+      return this.$store.getters.time_alert_list
     }
   }
 })
