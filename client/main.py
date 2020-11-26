@@ -9,7 +9,7 @@ import logging
 import uuid
 
 from testModule import summon_voice_text_window, clipboard_monitor, active_window_monitor, electron_server, sampling_pics, calc_similarity
-from testModule.voice import voice_anomaly_detection
+#from testModule.voice import voice_anomaly_detection
 from helperModule import helper
 
 exam_id = str(uuid.uuid4())
@@ -25,7 +25,7 @@ def daemon():
 
 def main():
     # record voice first
-    summon_voice_text_window.record()
+    #summon_voice_text_window.record()
 
     # create threads
     threads = [

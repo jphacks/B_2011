@@ -1,14 +1,34 @@
+const faceapi = require('face-api.js')
+const cv = require('./opencv.js')
+
+if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+	console.log("enumerateDevices() not supported.");
+}
+
+// List cameras
+navigator.mediaDevices.enumerateDevices().then(devices => {
+    const sel = document.getElementById('camera-device-id');
+    devices.forEach(function(device) {
+        // console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+        if (device.kind == 'videoinput') {
+            var opt = document.createElement('option');
+            opt.appendChild(document.createTextNode(device.label));
+            opt.value = device.deviceId;
+            sel.appendChild(opt);
+        }
+    });
+}).catch(err => console.log(err.name + ": " + err.message));
+
+const myDeviceId = document.getElementById('camera-device-id').value;
+
 navigator.mediaDevices.getUserMedia({
-    video: true,
+    video: {deviceId: myDeviceId},
     audio: false,
 }).then(stream => {
     const video = document.getElementById('video');
     video.srcObject = stream;
-});
-
-video.play();
-
-const faceapi = require('face-api.js')
+    video.play();
+}).catch(error => alert('Cannot connect to camera: ' + error));
 
 faceapi.env.monkeyPatch({
     Canvas: HTMLCanvasElement,
@@ -22,11 +42,11 @@ faceapi.env.monkeyPatch({
 faceapi.nets.tinyFaceDetector.loadFromUri('models/weights')
 faceapi.nets.faceLandmark68TinyNet.loadFromUri('models/weights')
 
-const cv = require('./opencv.js')
-
 let yaw_left_count = 0;
 let yaw_right_count = 0;
+
 detect();
+
 async function detect() {
     requestAnimationFrame(detect);
 
@@ -70,20 +90,23 @@ async function detect() {
     const { success, imagePoints, cameraMatrix, distCoeffs, rvec, tvec } = solve(nose, leftEye, rightEye, jaw, leftMouth, rightMouth, leftOutline, rightOutline)
     const { yaw, pitch, roll } = headpose(rvec, tvec, cameraMatrix, distCoeffs, imagePoints)
     // console.log(yaw, pitch, roll)
-    if (yaw <= -45) {
+    
+    if (yaw <= -25) {
         yaw_left_count += 1
-    } else if (yaw >= 45) {
+    } else if (yaw >= 35) {
         yaw_right_count += 1
     }
-    if (yaw_left_count > 20) {
+    if (yaw_left_count > 40) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the left. Please focus on the screen.'
         })
+        ipcRenderer.send('head_pose_estimation', { description: 'User is looking left' });
         yaw_left_count = 0
-    } else if (yaw_right_count > 20) {
+    } else if (yaw_right_count > 40) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the right. Please focus on the screen.'
         })
+        ipcRenderer.send('head_pose_estimation', { description: 'User is looking right' });
         yaw_right_count = 0
     }
 }
@@ -296,13 +319,5 @@ function headpose(rvec, tvec, cameraMatrix, distCoeffs, imagePoints) {
         pitch: eulerAngles.data64F[0],
         roll: eulerAngles.data64F[2],
     };
-}
-
-function showNotification(title, body) {
-    const notification = {
-        title: title,
-        body: body
-    }
-    new Notification(notification).show()
 }
 
