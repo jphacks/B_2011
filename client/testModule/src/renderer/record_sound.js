@@ -72,16 +72,13 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 const clipContainer = document.createElement('article');
                 const clipLabel = document.createElement('p');
                 const audio = document.createElement('audio');
-                const deleteButton = document.createElement('button');
                          
                 clipContainer.classList.add('clip');
                 audio.setAttribute('controls', '');
-                deleteButton.innerHTML = "Delete";
                 clipLabel.innerHTML = vowels[vowel_index-1];
               
                 clipContainer.appendChild(audio);
                 clipContainer.appendChild(clipLabel);
-                clipContainer.appendChild(deleteButton);
                 soundClips.appendChild(clipContainer);
               
                 const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
