@@ -1,19 +1,24 @@
 const sudo = require('sudo-prompt');
+const ipc = require('node-ipc');
+
 const options = {
     name: 'SATORI',
     icns: '../main/satori.png',
 };
+ipc.config.id = 'sshserver';
+ipc.config.retry = 1500;
 
-const ssh_main = async () => {
-    // sudo-prompt does not provide stdout stream, so called process must create output file, and this file will read it.
-    sudo.exec('node ./src/renderer/process/packet.js', options, (err, _, _) => {
-        if (err)  throw err;
+ipc.serve(function() {
+    ipc.server.on('message', function(data) {
+        new Notification(data.title, {
+            body: data.body
+        });
     });
+});
 
-    const readStream = fs.createReadStream('./src/renderer/process/out.txt', 'utf8');
-    readStream.on('data', (chunk) => {
-        new Notification(chunk);
-    });
-};
+ipc.server.start();
 
-ssh_main();
+// sudo-prompt does not provide stdout stream, so use ipc
+sudo.exec('node ./src/renderer/process/packet.js', options, (err) => {
+    if (err)  throw err;
+});

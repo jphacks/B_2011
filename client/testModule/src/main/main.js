@@ -17,7 +17,7 @@ function createWindow() {
         }
     })
 
-    win.loadURL(path.join('file://', __dirname, '../renderer/index.html'))
+    win.loadURL(path.join('file://', __dirname, '../renderer/login.html'))
 }
 
 app.on('ready', () => {
