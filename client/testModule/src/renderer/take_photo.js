@@ -39,7 +39,7 @@ document.getElementById("take_photo").addEventListener('click', () => {
                     alert("Image saved succesfully");
                     WebCamera.reset();
                     // Proceed to next page
-                    document.location.href = "exam_prep.html"
+                    document.location.href = "record_sound.html"
                 }
             });
         });
