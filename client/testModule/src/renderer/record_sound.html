@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SATORI</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+</head>
+<style>
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    img {
+        display: block;
+        margin: 30px auto;
+        width: 200px;
+    }
+    .container {
+        width: 50%;
+        margin: 20px auto;
+        display: block;
+    }
+</style>
+<body>
+    <img src="../../images/logo.png" alt="SATORI">
+    <h1>Record your voice</h1>
+    <p>「あ」「い」「う」「え」「お」をそれぞれ5秒ずつ録音します。</p>
+    <p>録音開始ボタンを押し、「<span id="voice_type">あ</span>」と5秒間発声してください。</p>
+
+    
+    <div style="text-align:center;">
+        <button id="record">START</button>
+    </div>
+
+    <section class="sound-clips">
+
+
+    </section>
+
+    <script src="record_sound.js"></script>
+</body>
+</html>
