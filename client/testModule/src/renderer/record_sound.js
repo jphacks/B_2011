@@ -58,7 +58,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                         document.location.href = "exam_prep.html"
                     }
                     change_vowel(vowels[vowel_index])
-                }, 5000)
+                }, 5500)
             }
 
             let chunks = [];
