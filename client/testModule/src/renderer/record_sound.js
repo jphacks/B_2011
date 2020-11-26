@@ -87,7 +87,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 audio.src = audioURL;
                 
                 blob.arrayBuffer().then(buffer => {
-                    fs.writeFileSync('voice/0_' + vowels[vowel_index-1] + '.wav', Buffer.from(buffer))
+                    fs.writeFileSync('python_code/voice/0_' + vowels[vowel_index-1] + '.wav', Buffer.from(buffer))
                 })
 
                 deleteButton.onclick = function(e) {
