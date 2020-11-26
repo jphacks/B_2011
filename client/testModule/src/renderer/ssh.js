@@ -1,5 +1,6 @@
 const sudo = require('sudo-prompt');
 const ipc = require('node-ipc');
+const { ipcRenderer } = require('electron');
 
 const options = {
     name: 'SATORI',
@@ -10,9 +11,7 @@ ipc.config.retry = 1500;
 
 ipc.serve(function() {
     ipc.server.on('message', function(data) {
-        new Notification(data.title, {
-            body: data.body
-        });
+        ipcRenderer.send(data.module, { description: data.body });
     });
 });
 
