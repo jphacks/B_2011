@@ -128,7 +128,6 @@ def record(p, stream):
 
     return filepath
 
-# TODO : サポートベクターマシンでmfccの分類のためのモデル構築を行う。
 def svm_model(X_train, Y_train):
     model = SVC(gamma = 'scale')
     model.fit(X_train, Y_train)
@@ -156,13 +155,11 @@ def voice_inference(model, filename):
     Y_pred = max(dic, key=dic.get)
     fig.savefig("shun.png")
 
-    print('predict : ' + str(Y_pred))
     if str(Y_pred[0]) == '0':
-        print('OK!')
+        pass
     else:
+        #TODO : NGの際の処理を仕上げる。
         print('NG!!!')
-    # Y_pred = model.predict(X_test)
-    # print(Y_pred)
 
 def make_wav(s):
     print('母音の" ' + str(s) + ' "を5秒間発声してください。')
@@ -171,7 +168,7 @@ def make_wav(s):
     subprocess.run(['rec', '-c', '1', '-r', '44100', filename, 'trim', '0', '5'])
 
 # main関数のようなもの。
-def run():
+def anomaly_detection():
     # TODO : フロントで母音を言うように出してもらって、それを
     # TODO : './wav/examinee_a.wav'のように保存してもらう。
     # 現状、一時的にexaminee_a.wavをmake_wav()で作成する。
@@ -179,8 +176,8 @@ def run():
     if os.path.exists('log'):
         shutil.rmtree('log')
     os.mkdir('log')
-    for s in ['a','i','u','e','o']:
-        make_wav(s)
+    # for s in ['a','i','u','e','o']:
+    #     make_wav(s)
 
 
     X_train = np.array([])
@@ -240,4 +237,4 @@ def run():
         voice_inference(model, filename)
 
 
-run()
+anomaly_detection()
