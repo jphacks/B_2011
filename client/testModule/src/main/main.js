@@ -1,6 +1,6 @@
 if (require('electron-squirrel-startup')) return;
 
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Notification, screen } = require('electron')
 const WebSocket = require('ws')
 const path = require('path')
 
@@ -19,6 +19,28 @@ function createWindow() {
     })
 
     win.loadURL(path.join('file://', __dirname, '../renderer/login.html'))
+}
+
+function showNotification_dualscreen() {
+    const notification = {
+        title: 'Second screen detected.',
+        body: 'You cannot use second screen.'
+    }
+    new Notification(notification).show()
+}
+
+function detect_dual_screen() {
+    setInterval(function() {
+        let displays = screen.getAllDisplays()
+        let externalDisplay = displays.find((display) => {
+            return display.bounds.x !== 0 || display.bounds.y !== 0
+        })
+        if (externalDisplay) {
+            showNotification_dualscreen();
+            console.log('second screen detected!');
+            send_json('second_screen', 'Second screen detected', '')
+        }
+    }, 2000);
 }
 
 app.on('ready', () => {
@@ -51,6 +73,10 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     exam_id = arg.exam_id;
     user_id = arg.user_id;
     send_json('user_log', 'User logged in', 'User has logged in from desktop App.')
+});
+
+ipcMain.on('dual_display_detect', (event, data) => {
+    detect_dual_screen();
 });
 
 // IPC with "take_photo.js"
@@ -136,7 +162,7 @@ async function send_json(module_name, description, content) {
             connection.send(json_data);
             break;
         } else {
-            await sleep(1000)
+            await sleep(1000);
         };
     };
 };
