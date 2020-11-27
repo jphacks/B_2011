@@ -143,6 +143,7 @@ const testSSH = async () => {
                 if (alertProcessList.length === 0) {
                     ipc.of.sshserver.emit('message', {
                         title: 'ok',
+                        alert: 0,
                         description: '',
                         module: 'ssh_process_name',
                     });
@@ -151,6 +152,7 @@ const testSSH = async () => {
                     const processNameList = alertProcessList.map(process => `${process.pid}: ${process.name}`);
                     ipc.of.sshserver.emit('message', {
                         title: 'suspicious process detected',
+                        alert: 1,
                         description: JSON.stringify(processNameList),
                         module: 'ssh_process_name',
                     });
@@ -184,6 +186,7 @@ const testSSH = async () => {
                 if (alertPortList.length === 0) {
                     ipc.of.sshserver.emit('message', {
                         title: 'ok',
+                        alert: 0,
                         description: '',
                         module: 'ssh_network_traffic',
                     });
@@ -203,6 +206,7 @@ const testSSH = async () => {
                     });
                     ipc.of.sshserver.emit('message', {
                         title: 'over-traffic process detected',
+                        alert: 1,
                         description: JSON.stringify(portDetails),
                         module: 'ssh_network_traffic',
                     });
