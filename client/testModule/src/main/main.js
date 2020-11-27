@@ -1,6 +1,7 @@
 if (require('electron-squirrel-startup')) return;
 
 const { app, BrowserWindow, ipcMain } = require('electron')
+const WebSocket = require('ws')
 const path = require('path')
 
 // app.disableHardwareAcceleration()
@@ -55,13 +56,13 @@ ipcMain.on('asynchronous-message', (event, arg) => {
 // IPC with "take_photo.js"
 ipcMain.on('take_photo', (event, data) => {
     // Send back the exam_id and user_id
-    event.reply('take_photo', {exam_id: exam_id, user_id: user_id});
+    event.reply('take_photo', { exam_id: exam_id, user_id: user_id });
 });
 
 // IPC with "exam_prep.js"
 ipcMain.on('exam_prep', (event, data) => {
     // Send back the exam_id and user_id
-    event.reply('exam_prep', {exam_id: exam_id, user_id: user_id});
+    event.reply('exam_prep', { exam_id: exam_id, user_id: user_id });
 });
 
 ipcMain.on('active_window', (event, data) => {
@@ -80,43 +81,48 @@ ipcMain.on('head_pose_estimation', (event, data) => {
 });
 
 // Connect with server
-const send_json = (module_name, description, content) => {
-    
-    const http = require('http')
+var connection = new WebSocket(
+    "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+);
 
-    const data = JSON.stringify([{
-        "examinee_id": user_id,
-        "exam_id": exam_id,
-        "module_name": module_name,
-        "alert": "True",
-        "description": description,
-        "content": content,
-    }])
+async function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+};
 
-    const options = {
-        hostname: 'demo.ben.hongo.wide.ad.jp',
-        port: 8000,
-        path: '/api/message/list',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': data.length
-        }
-    }
+connection.onopen = function() {
+    console.log("websocket connection established");
+};
 
-    const req = http.request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`)
-      
-        res.on('data', d => {
-            process.stdout.write(d)
-        })
-    })
+connection.onerror = function() {
+    console.log("websocket connection closed on error");
+};
 
-    req.on('error', error => {
-        console.error(error)
-    })
+connection.onmessage = function(e) {
+    console.log(e.data);
+};
 
-    req.write(data)
-    req.end()
-    
-}
+connection.onclose = function() {
+    console.log("websocket connection closed");
+};
+
+async function send_json(module_name, description, content) {
+    let data = {
+        examinee_id: user_id,
+        exam_id: exam_id,
+        module_name: module_name,
+        alert: 1,
+        description: description,
+        content: content,
+    };
+    let json_data = JSON.stringify(data);
+    console.log(json_data);
+    while (true) {
+        if (connection.readyState === 1) {
+            console.log("data sent");
+            connection.send(json_data);
+            break;
+        } else {
+            await sleep(1000)
+        };
+    };
+};
