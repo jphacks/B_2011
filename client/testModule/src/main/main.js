@@ -80,6 +80,16 @@ ipcMain.on('head_pose_estimation', (event, data) => {
     send_json('head_pose_estimation', data.description, '')
 });
 
+ipcMain.on('ssh_process_name', (_, data) => {
+    console.log('[SERVER] ssh_process_name ', data.description)
+    send_json('ssh_process_name', data.description, '')
+});
+
+ipcMain.on('ssh_network_traffic', (_, data) => {
+    console.log('[SERVER] ssh_network_traffic ', data.description)
+    send_json('ssh_network_traffic', data.description, '')
+})
+
 ipcMain.on('exam_finished', (event, data) => {
     app.quit()
 });
