@@ -1,6 +1,7 @@
 if (require('electron-squirrel-startup')) return;
 
 const { app, BrowserWindow, ipcMain } = require('electron')
+const WebSocket = require('ws')
 const path = require('path')
 
 // app.disableHardwareAcceleration()
@@ -105,7 +106,6 @@ connection.onclose = function() {
 };
 
 async function send_json(module_name, description, content) {
-    console.log(exam_id);
     let data = {
         examinee_id: user_id,
         exam_id: exam_id,
@@ -114,7 +114,6 @@ async function send_json(module_name, description, content) {
         description: description,
         content: content,
     };
-    console.log(data);
     let json_data = JSON.stringify(data);
     console.log(json_data);
     while (true) {
