@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SATORI</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+    <link rel="stylesheet" href="./styles/common.css">
+</head>
+<body>
+    <div class="container">
+        <img src="../../images/logo.png" alt="SATORI" class="logo">
+
+        <div class="arrow-steps">
+            <div class="step"><span>ログイン</span></div>
+            <div class="step"><span>写真撮影</span></div>
+            <div class="step"><span> 音声録音</span></div>
+            <div class="step current"><span>試験準備</span></div>
+            <div class="step"><span>試験開始</span></div>
+            <div id="clear" style="clear:both;"></div>
+        </div>
+
+        <div class="left">
+            <div class="box">
+                <p>試験リンクにアクセスしてください。</p>
+                <button id="exam_link" style="width: 80%; margin: 0; text-align: left;"></button>
+                <br><br><br><br>
+                <p>試験を開始する準備ができましたら、「試験開始」ボタンを押してください。</p><br><br>
+                <button id="exam_start"><b>試験開始</b></button>
+                <br><br>
+            </div>
+        </div>
+        
+        <div class="right">
+            <div class="box">
+                <p><b>試験ID</b><br><span id="exam_id"></span></p>
+                <p><b>受験者ID</b><br><span id="user_id"></span></p>
+                <p><b>試験時間</b><br>60分</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="exam_prep.js"></script>
+</body>
+</html>
