@@ -19,6 +19,6 @@ ipc.server.start();
 
 // sudo-prompt does not provide stdout stream, so use ipc
 // If you want to debug this process, please comment out exec command and use another terminal.
-sudo.exec('node ./src/renderer/process/packet.js', options, (err) => {
+sudo.exec('node ' + require('path').resolve('./src/renderer/process/packet.js'), options, (err) => {
     if (err)  throw err;
 });
