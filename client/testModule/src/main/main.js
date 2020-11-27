@@ -93,6 +93,11 @@ ipcMain.on('exam_prep', (event, data) => {
     event.reply('exam_prep', { exam_id: exam_id, user_id: user_id });
 });
 
+ipcMain.on('exam', (event, data) => {
+    // Send back the exam_id and user_id
+    event.reply('exam', { exam_id: exam_id, user_id: user_id });
+});
+
 ipcMain.on('active_window', (event, data) => {
     console.log('[SERVER] active_window ', data.alert, data.description)
     send_json('active_window', data.alert, data.description, '')
