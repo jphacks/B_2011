@@ -27,3 +27,13 @@ button#exam_finish {
   50% { background-color: rgb(255, 145, 0); }
   100% { background-color: #ff0000; }
 }
+
+li {
+  list-style-type: none;
+  background-color: #fff;
+  width: 90%;
+  color: red;
+  height: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
