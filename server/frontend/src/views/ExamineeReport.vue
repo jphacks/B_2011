@@ -5,7 +5,7 @@ import AlertChart from "*.vue"
     <div v-show="is_loading">
       Loading...
     </div>
-    <v-container ma-0 pa-0>
+    <v-container ma-5 pa-5>
       <v-row>
         <v-col cols="3">
           <ListExaminees
@@ -15,9 +15,9 @@ import AlertChart from "*.vue"
         <v-col cols="9">
           <v-row>
             <AlertChart
-              :time_normal_list="time_normal_list"
-              :time_warning_list="time_warning_list"
-              :time_alert_list="time_alert_list"/>
+              :time_normal="time_normal"
+              :time_warning="time_warning"
+              :time_alert="time_alert"/>
           </v-row>
           <v-row>
             <ListAlerts
@@ -49,6 +49,7 @@ export default Vue.extend({
     this.$store.commit('setExamineeId', examinee_id)
     this.$store.dispatch('getExamineeAlerts')
     this.$store.dispatch('getTimeListFromExaminee')
+    this.$store.dispatch('getExamineeList')
   },
   watch: {
     $route () {
@@ -56,6 +57,7 @@ export default Vue.extend({
       this.$store.commit('setExamineeId', examinee_id)
       this.$store.dispatch('getExamineeAlerts')
       this.$store.dispatch('getTimeListFromExaminee')
+      this.$store.dispatch('getExamineeList')
     }
   },
   computed: {
@@ -71,13 +73,13 @@ export default Vue.extend({
     alerts: function () {
       return this.$store.getters.alert_list
     },
-    time_normal_list: function () {
+    time_normal: function () {
       return this.$store.getters.time_normal_list
     },
-    time_warning_list: function () {
+    time_warning: function () {
       return this.$store.getters.time_warning_list
     },
-    time_alert_list: function () {
+    time_alert: function () {
       return this.$store.getters.time_alert_list
     }
   }

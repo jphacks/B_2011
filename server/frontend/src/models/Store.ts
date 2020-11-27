@@ -14,9 +14,9 @@ const PropertyStore = new Vuex.Store({
       examinee_list : [],
 
       //チャート用のリスト
-      time_normal_list: [[1,1]],
-      time_warning_list: [[1,1]],
-      time_alert_list: [[1,1]],
+      time_normal_list: [],
+      time_warning_list: [],
+      time_alert_list: [],
       status: StatusConfig.INITIALIZE,
     },
     socket: {
@@ -77,7 +77,13 @@ const PropertyStore = new Vuex.Store({
       state.property.status = StatusConfig.LOADED
     },
     setTimeList (state, response) {
-      state.property.time_alert_list = JSON.parse(response).time_list
+      console.log(response)
+      const data = JSON.parse(response)
+
+      state.property.time_normal_list = data.time_normal_list
+      console.log(state.property.time_normal_list)
+      state.property.time_warning_list = data.time_warning_list
+      state.property.time_alert_list = data.time_alert_list
       state.property.status = StatusConfig.LOADED
     },
     setExamId (state, id) {
@@ -113,7 +119,7 @@ const PropertyStore = new Vuex.Store({
   },
   actions: {
     getExamInfo ({ commit }) {
-      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/get?exam_id=' + this.state.property.exam_id, {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/exam/?exam_id=' + this.state.property.exam_id, {
         mode: 'cors'
       })
         .then(res => {
@@ -174,6 +180,18 @@ const PropertyStore = new Vuex.Store({
     },
     getTimeListFromExaminee ({ commit }) {
       fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/timelist?examinee_id=' + this.state.property.examinee_id, {
+        mode: 'cors'
+      })
+        .then(res => {
+          if (res.status === 200) {
+            return res.json()
+          }
+        }).then(res => {
+        commit('setTimeList', res)
+      })
+    },
+    getTimeListFromExam ({ commit }) {
+      fetch(process.env.VUE_APP_API_SERVER_URL + '/api/message/timelist?exam_id=' + this.state.property.exam_id, {
         mode: 'cors'
       })
         .then(res => {

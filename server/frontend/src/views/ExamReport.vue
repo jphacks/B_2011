@@ -4,7 +4,7 @@
     <div v-show="is_loading">
       Loading...
     </div>
-    <v-container ma-0 pa-0>
+    <v-container ma-5 pa-5>
       <v-row>
         <v-col cols="3">
           <ListExaminees
@@ -12,6 +12,9 @@
             :examinees="examinees"/>
         </v-col>
         <v-col cols="9">
+          <v-row>
+            <SendMessage/>
+          </v-row>
           <v-row>
             <AlertChart
               :time_normal="time_normal"
@@ -35,6 +38,7 @@ import ListExaminees from '@/components/ListExaminees.vue'
 import AlertChart from '@/components/AlertChart.vue'
 import StatusConfig from '@/config/Status.ts'
 import Store from '../models/Store'
+import SendMessage from '../components/SendMessage'
 
 export default Vue.extend({
   name: 'Exam Report',
@@ -42,6 +46,7 @@ export default Vue.extend({
     const exam_id = this.$route.params.exam_id || ''
     this.$store.commit('setExamId', exam_id)
     this.$store.dispatch('getExamInfo')
+    this.$store.dispatch('getTimeListFromExam')
     this.$store.dispatch('getExamineeList')
     // modified for ws
     this.$disconnect()
@@ -49,10 +54,19 @@ export default Vue.extend({
     this.$connect('ws://ben.hongo.wide.ad.jp:8000/ws/user/' + this.$route.params.exam_id || '', { store: Store, format: 'json' })
     // this.$store.dispatch('getExamAlerts')
   },
+  watch: {
+    $route () {
+      const examinee_id = this.$route.params.examinee_id || 0
+      this.$store.commit('setExamId', examinee_id)
+      this.$store.dispatch('getTimeListFromExam')
+      this.$store.dispatch('getExamineeList')
+    }
+  },
   components: {
     ListExaminees,
     ListAlerts,
-    AlertChart
+    AlertChart,
+    SendMessage
   },
   computed: {
     exam_name: function () {

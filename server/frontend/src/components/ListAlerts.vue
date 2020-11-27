@@ -7,7 +7,7 @@
           tile
           :to="{ name: 'examinee_report', params: { examinee_id: item.examinee_id }}"
         >
-          <v-alert type='error' v-if='item.alert'>
+          <v-alert type='error' v-if='item.alert-1'>
             <v-list-item-title>
               受験者: {{item.examinee_id}}
               内容: {{item.module_name}}

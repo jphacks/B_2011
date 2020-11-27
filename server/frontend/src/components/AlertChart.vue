@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <apexchart type="scatter" height="350" width="500" :options="chartOptions" :series="series"></apexchart>
+    <apexchart type="scatter" height="350" width="800" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
 <script>
@@ -41,17 +41,25 @@ export default Vue.extend({
             type: 'datetime'
           },
           yaxis: {
-            max: 7,
+            max: 8,
             labels: {
               show: false
             }
           },
-          colors: ['#7cfc00', '#ffff00', '#ff0000']
+          colors: ['#7cfc00', '#ffff00', '#ff0000'],
+          tooltip: {
+            x: {
+              show: true,
+              format: 'hh:mm:ss',
+              formatter: undefined
+            },
+          }
         }
       }
     },
   computed: {
     series: function () {
+      console.log(this.$parent)
       return [{
         name: '正常動作',
         data: this.$parent.time_normal
