@@ -42,8 +42,8 @@ app.on('activate', () => {
 //
 
 // IPC with "login.js"
-let exam_id = '911f6e61-e061-4be9-9f25-246e1fb16207';
-let user_id = '911f6e61-e061-4be9-9f25-246e1fb16207';
+let exam_id = '072d2d97-e528-4aa3-9e24-6aa71b87b98a';
+let user_id = '7cfc21fb-b096-4005-a100-1dd55e719903';
 
 ipcMain.on('asynchronous-message', (event, arg) => {
     console.log("Exam ID: ", arg.exam_id);
@@ -66,18 +66,23 @@ ipcMain.on('exam_prep', (event, data) => {
 });
 
 ipcMain.on('active_window', (event, data) => {
-    console.log('[SERVER] active_window ', data.description)
-    send_json('active_window', data.description, '')
+    console.log('[SERVER] active_window ', data.alert, data.description)
+    send_json('active_window', data.alert, data.description, '')
 });
 
 ipcMain.on('clipboard', (event, data) => {
-    console.log('[SERVER] clipboard ', data.description)
-    send_json('clipboard', data.description, '')
+    console.log('[SERVER] clipboard ', data.alert, data.description)
+    send_json('clipboard', data.alert, data.description, '')
 });
 
 ipcMain.on('head_pose_estimation', (event, data) => {
-    console.log('[SERVER] head_pose_estimation ', data.description)
-    send_json('head_pose_estimation', data.description, '')
+    console.log('[SERVER] head_pose_estimation ', data.alert, data.description)
+    send_json('head_pose_estimation', data.alert, data.description, '')
+});
+
+ipcMain.on('face_recognition', (event, data) => {
+    console.log('[SERVER] face_recognition ', data.alert, data.description)
+    send_json('face_recognition', data.alert, data.description, '')
 });
 
 ipcMain.on('exam_finished', (event, data) => {
@@ -99,6 +104,9 @@ connection.onopen = function() {
 
 connection.onerror = function() {
     console.log("websocket connection closed on error");
+    connection = new WebSocket(
+        "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+    );
 };
 
 connection.onmessage = function(e) {
@@ -107,22 +115,23 @@ connection.onmessage = function(e) {
 
 connection.onclose = function() {
     console.log("websocket connection closed");
+    connection = new WebSocket(
+        "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+    );
 };
 
-async function send_json(module_name, description, content) {
+async function send_json(module_name, alert, description, content) {
     let data = {
         examinee_id: user_id,
         exam_id: exam_id,
         module_name: module_name,
-        alert: 1,
+        alert: alert,
         description: description,
         content: content,
     };
     let json_data = JSON.stringify(data);
-    console.log(json_data);
     while (true) {
         if (connection.readyState === 1) {
-            console.log("data sent");
             connection.send(json_data);
             break;
         } else {
