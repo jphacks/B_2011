@@ -35,7 +35,8 @@
     "node-ipc": "^9.1.3",
     "python-shell": "^2.0.3",
     "sudo-prompt": "^9.2.1",
-    "webcamjs": "^1.0.26"
+    "webcamjs": "^1.0.26",
+    "ws": "^7.4.0"
   },
   "config": {
     "forge": {

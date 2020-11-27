@@ -4,55 +4,36 @@
     <meta charset="UTF-8">
     <title>SATORI</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+    <link rel="stylesheet" href="./styles/common.css">
+    <link rel="stylesheet" href="./styles/take_photo.css">
 </head>
-<style>
-    body {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    img {
-        display: block;
-        margin: 30px auto;
-        width: 200px;
-    }
-    .container {
-        width: 50%;
-        margin: 20px auto;
-        display: block;
-    }
-    input[type=text] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 10px 0;
-        margin-bottom: 30px;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 18px;
-    }
-    button {
-        background-color: #25d32b;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        font-size: 20px;
-    }
-    button:hover {
-        opacity: 0.8;
-    }
-</style>
-<body>
-    <img src="../../images/logo.png" alt="SATORI">
-    <h1>Take ID Photo</h1>
-    <p>Exam ID: <span id="exam_id"></span></p>
-    <p>User ID: <span id="user_id"></span></p>
 
-    <div id="camdemo" style="width: 640px; height: 480px; text-align: center; margin: 0 auto;"></div>
-    <br>
-    <div style="text-align:center;">
-        <button id="take_photo">Take Photo!</button>
+<body>
+    <div class="container">
+        <img src="../../images/logo.png" alt="SATORI" class="logo">
+
+        <div class="arrow-steps">
+            <div class="step"><span>ログイン</span></div>
+            <div class="step current"><span>写真撮影</span></div>
+            <div class="step"><span> 音声録音</span></div>
+            <div class="step"><span>試験準備</span></div>
+            <div class="step"><span>試験開始</span></div>
+            <div id="clear" style="clear:both;"></div>
+        </div>
+
+        <div id="camera_screen"></div>
+
+        <div class="right">
+            <div class="box">
+                <p><b>チェック項目</b></p>
+                <hr>
+                <p>自分しか写っていない</p>
+                <p>中心に写っている</p>
+                <p>帽子、サングラス、ヘッドフォンなどを着用していない</p>
+                <br><br><br><br><br><br><br>
+                <button id="take_photo">撮影</button>
+            </div>
+        </div>
     </div>
 
     <script src="take_photo.js"></script>

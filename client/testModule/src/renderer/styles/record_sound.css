@@ -1,0 +1,12 @@
+.voice_type_box {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  color: #087fe9ff;
+  background-color: #fff;
+  text-align: center;
+  line-height: 160px;
+  font-size: 70px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
