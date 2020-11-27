@@ -17,6 +17,7 @@ const active_window_interval = setInterval(function() {
                 alert: 2,
                 description: 'Changed to ' + current_active_app_title 
             });
+            add_warning('画面が' + current_active_app_title + 'に変わりました')
         } else {
             active_window_counter += 1
             if (active_window_counter == 4) {
