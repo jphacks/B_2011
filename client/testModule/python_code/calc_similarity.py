@@ -3,10 +3,12 @@ import os
 # sys.path.append(os.path.abspath(".."))
 import time
 import face_recognition
+import json
 
 #save examinee's photo as valid.png before exam starts
-valid_uri = '../img/valid2.png'
+valid_uri = '../img/user_valid.png'
 sample_uri = '../img/sample.png'
+counter = 0
 
 while(True):
 	#run validation once a second
@@ -16,7 +18,7 @@ while(True):
 		valid_image = face_recognition.load_image_file(valid_uri)
 		sample_image = face_recognition.load_image_file(sample_uri)
 	except:
-		print('Image not valid')
+		print(json.dumps({ "alert": 1, "description": "Image not valid" }))
 		sys.stdout.flush()
 		continue
 
@@ -27,17 +29,22 @@ while(True):
 		# for debug
 		# print('distance is ', result)
 		# sys.stdout.flush()
+		counter += 1
+		if counter == 10:
+			print(json.dumps({ "alert": 0, "description": "normal" }))
+			sys.stdout.flush()
+			counter = 0
 	except:
 		description = 'any face cannot be detected'
 		# helper.send_json(module_name, True, description, content)
-		print(description)
+		print(json.dumps({ "alert": 1, "description": description }))
 		sys.stdout.flush()
 		continue
 
 	if result > 0.4:
 		description = 'different person might be taking exam'
 		# helper.send_json(module_name, True, description, content)
-		print(description)
+		print(json.dumps({ "alert": 1, "description": description }))
 		sys.stdout.flush()
 	else:
 		description = 'examinee is on the chair'
