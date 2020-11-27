@@ -8,8 +8,10 @@ const path = require('path')
 
 app.setAppUserModelId("com.electron.satori")
 
+let win;
+
 function createWindow() {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 1080,
         minWidth: 680,
         height: 840,
@@ -147,6 +149,12 @@ connection.onerror = function() {
 
 connection.onmessage = function(e) {
     console.log(e.data);
+    const notification = {
+        title: '試験監督からの新着メッセージ',
+        body: e.data
+    }
+    new Notification(notification).show()
+    win.webContents.send('proctor-message', e.data)
 };
 
 connection.onclose = function() {
