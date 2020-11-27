@@ -44,18 +44,25 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 console.log(mediaRecorder.state);
                 console.log("recorder started");
                 record.style.background = "red";
-                record.style.color = "black";
-                record.innerText = "STOP"
+                record.innerText = "録音中..."
+                record.style.color = "#fff"
+                record.disabled = true
                 setTimeout(() => {
                     mediaRecorder.stop();
                     console.log(mediaRecorder.state);
                     console.log("recorder stopped");
                     record.style.background = "";
                     record.style.color = "";
-                    record.innerText = "START"
+                    record.innerText = "録音"
+                    record.disabled = false
                     vowel_index += 1
                     if (vowel_index == 5) {
-                        document.location.href = "exam_prep.html"
+                        document.getElementById('voice_type_box').style.display = 'none'
+                        document.getElementById('record').style.display = 'none'
+                        document.getElementById('next_page').onclick = () => {
+                            document.location.href = "exam_prep.html"
+                        }
+                        document.getElementById('next_page').style.display = 'block'
                     }
                     change_vowel(vowels[vowel_index])
                 }, 5500)
@@ -70,15 +77,45 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 console.log("recorder stopped");
               
                 const clipContainer = document.createElement('article');
-                const clipLabel = document.createElement('p');
+                const clipLabel = document.createElement('span');
                 const audio = document.createElement('audio');
+                const clear = document.createElement('div');
                          
                 clipContainer.classList.add('clip');
                 audio.setAttribute('controls', '');
-                clipLabel.innerHTML = vowels[vowel_index-1];
-              
-                clipContainer.appendChild(audio);
+                audio.style.width = '200px'
+                audio.style.float = 'right'
+                audio.style.height = '50px'
+                audio.style.verticalAlign = 'middle'
+                clipLabel.style.float = 'left'
+                clipLabel.style.fontSize = '30px'
+                clipLabel.style.color = '#087fe9ff'
+                clipLabel.style.backgroundColor = '#fff'
+                clipLabel.style.padding = '3px 10px'
+                clear.style.clear = 'both'
+                clear.style.marginBottom = '10px'
+                
+                switch(vowels[vowel_index-1]) {
+                    case 'a':
+                        clipLabel.innerHTML = 'あ'
+                        break;
+                    case 'i':
+                        clipLabel.innerHTML = 'い'
+                        break;
+                    case 'u':
+                        clipLabel.innerHTML = 'う'
+                        break;
+                    case 'e':
+                        clipLabel.innerHTML = 'え'
+                        break;
+                    case 'o':
+                        clipLabel.innerHTML = 'お'
+                        break;
+                }
+
                 clipContainer.appendChild(clipLabel);
+                clipContainer.appendChild(audio);
+                clipContainer.appendChild(clear);
                 soundClips.appendChild(clipContainer);
               
                 const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=opus' });
@@ -89,11 +126,6 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 blob.arrayBuffer().then(buffer => {
                     fs.writeFileSync('python_code/voice/wav/0_' + vowels[vowel_index-1] + '.wav', Buffer.from(buffer))
                 })
-
-                deleteButton.onclick = function(e) {
-                  let evtTgt = e.target;
-                  evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-                }
             }
          
        })
