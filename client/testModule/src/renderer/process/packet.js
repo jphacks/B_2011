@@ -125,28 +125,38 @@ const testSSH = async () => {
             });
         
             const checkProcessName = (name) => {
-            // Chrome remote desktop@Windows
-            if (/.*(remote|remoting).*/.test(name)) {
-                return true;
-            }
-            // ssh@Ubuntu
-            else if (/.*sshd:.*@.*/.test(name)) {
-                return true;
-            }
-            return false;
+                // Chrome remote desktop@Windows
+                if (/.*(remote|remoting).*/.test(name)) {
+                    return true;
+                }
+                // ssh@Ubuntu
+                else if (/.*sshd:.*@.*/.test(name)) {
+                    return true;
+                }
+                return false;
             };
 
             setInterval(async () => {
-                (await si.processes()).list.forEach((process) => {
-                    if (checkProcessName(process.name)) {
-                        ipc.of.sshserver.emit('message', {
-                            title: 'suspicious process name detected',
-                            body: process.name,
-                            module: 'process-name'
-                        });
-                    }
-                });
-        
+                // process name filtering
+                const processList = (await si.processes()).list;
+                const alertProcessList = processList.filter((process) => checkProcessName(process.name));
+                if (alertProcessList.length === 0) {
+                    ipc.of.sshserver.emit('message', {
+                        title: 'ok',
+                        description: '',
+                        module: 'ssh_process_name',
+                    });
+                } else {
+                    // alert(level=warning?)
+                    const processNameList = alertProcessList.map(process => `${process.pid}: ${process.name}`);
+                    ipc.of.sshserver.emit('message', {
+                        title: 'suspicious process detected',
+                        description: JSON.stringify(processNameList),
+                        module: 'ssh_process_name',
+                    });
+                }
+                
+                // network traffic filtering
                 const port2pid = {};
                 (await si.networkConnections()).forEach((conn) => {
                     if (conn.pid === '0' || conn.pid === undefined) {
@@ -157,22 +167,46 @@ const testSSH = async () => {
                     }
                     port2pid[conn.localport] = conn.pid;
                 });
+                const pid2process = {};
+                processList.forEach(process => {
+                    pid2process[process.pid] = process;
+                });
 
                 let portList = null;
                 await lock.acquire('portTraffics', () => {
                     portList = Object.entries(portTraffics);
                     portTraffics = {};
                 });
-                portList.forEach(async (val) => {
-                    const [port, nbytes] = val;
-                    if (nbytes > 1 * 5 * 1024 * 1024) { // 1MB/s
-                        ipc.of.sshserver.emit('message', {
-                            title: 'over-traffic process detected',
-                            body: `port: ${port}, nbytes: ${nbytes}`,
-                            module: 'process-traffic'
-                        });
-                    }
+                const alertPortList = portList.filter(val => {
+                    const [_, nbytes] = val;
+                    return nbytes > 1 * 5 * 1024 * 1024; // 1MB/s
                 });
+                if (alertPortList.length === 0) {
+                    ipc.of.sshserver.emit('message', {
+                        title: 'ok',
+                        description: '',
+                        module: 'ssh_network_traffic',
+                    });
+                } else {
+                    // alert(level=warning?)
+                    const portDetails = alertPortList.map(val => {
+                        let [port, nbytes] = val;
+                        port = port.toString();
+                        nbytes /= 5.0 * 1024 * 1024;
+                        let pid = port2pid[port] || -1;
+                        let process = pid2process[pid.toString()] || null;
+                        return {
+                            port,
+                            traffic: `${nbytes}MB/s`,
+                            process: process.name,
+                        };
+                    });
+                    ipc.of.sshserver.emit('message', {
+                        title: 'over-traffic process detected',
+                        description: JSON.stringify(portDetails),
+                        module: 'ssh_network_traffic',
+                    });
+                }
             }, 5000);
         });
     });

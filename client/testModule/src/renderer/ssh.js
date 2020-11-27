@@ -1,6 +1,5 @@
 const sudo = require('sudo-prompt');
 const ipc = require('node-ipc');
-const { ipcRenderer } = require('electron');
 
 const options = {
     name: 'SATORI',
@@ -11,13 +10,15 @@ ipc.config.retry = 1500;
 
 ipc.serve(function() {
     ipc.server.on('message', function(data) {
-        ipcRenderer.send(data.module, { description: data.body });
+        // new Notification(data.description);
+        ipcRenderer.send(data.module, { description: data.description });
     });
 });
 
 ipc.server.start();
 
 // sudo-prompt does not provide stdout stream, so use ipc
+// If you want to debug this process, please comment out exec command and use another terminal.
 sudo.exec('node ./src/renderer/process/packet.js', options, (err) => {
     if (err)  throw err;
 });
