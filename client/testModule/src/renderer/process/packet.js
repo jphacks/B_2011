@@ -144,7 +144,7 @@ const testSSH = async () => {
                     ipc.of.sshserver.emit('message', {
                         title: 'ok',
                         alert: 0,
-                        description: '',
+                        description: 'no problem',
                         module: 'ssh_process_name',
                     });
                 } else {
@@ -187,7 +187,7 @@ const testSSH = async () => {
                     ipc.of.sshserver.emit('message', {
                         title: 'ok',
                         alert: 0,
-                        description: '',
+                        description: 'no problem',
                         module: 'ssh_network_traffic',
                     });
                 } else {
