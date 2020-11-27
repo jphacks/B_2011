@@ -38,7 +38,7 @@ function detect_dual_screen() {
         if (externalDisplay) {
             showNotification_dualscreen();
             console.log('second screen detected!');
-            send_json('second_screen', 'Second screen detected', '')
+            send_json('second_screen', 2 ,'Second screen detected', '')
         }
     }, 2000);
 }
@@ -112,13 +112,13 @@ ipcMain.on('face_recognition', (event, data) => {
 });
 
 ipcMain.on('ssh_process_name', (_, data) => {
-    console.log('[SERVER] ssh_process_name ', data.description)
-    send_json('ssh_process_name', data.description, '')
+    console.log('[SERVER] ssh_process_name ', data.alert, data.description)
+    send_json('ssh_process_name', data.alert, data.description, '')
 });
 
 ipcMain.on('ssh_network_traffic', (_, data) => {
-    console.log('[SERVER] ssh_network_traffic ', data.description)
-    send_json('ssh_network_traffic', data.description, '')
+    console.log('[SERVER] ssh_network_traffic ', data.alert, data.description)
+    send_json('ssh_network_traffic', data.alert, data.description, '')
 })
 
 ipcMain.on('exam_finished', (event, data) => {

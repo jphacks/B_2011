@@ -11,7 +11,7 @@ ipc.config.retry = 1500;
 ipc.serve(function() {
     ipc.server.on('message', function(data) {
         // new Notification(data.description);
-        ipcRenderer.send(data.module, { description: data.description });
+        ipcRenderer.send(data.module, data);
     });
 });
 
