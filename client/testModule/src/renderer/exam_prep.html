@@ -4,58 +4,41 @@
     <meta charset="UTF-8">
     <title>SATORI</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+    <link rel="stylesheet" href="./styles/common.css">
 </head>
-<style>
-    body {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    img {
-        display: block;
-        margin: 30px auto;
-        width: 200px;
-    }
-    .container {
-        width: 50%;
-        margin: 20px auto;
-        display: block;
-    }
-    input[type=text] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 10px 0;
-        margin-bottom: 30px;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 18px;
-    }
-    button {
-        background-color: #25d32b;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        font-size: 20px;
-    }
-    button:hover {
-        opacity: 0.8;
-    }
-    button#exam_start {
-        width: 100px;
-        background: rgb(148, 195, 129);
-    }
-</style>
 <body>
-    <img src="../../images/logo.png" alt="SATORI">
-    <h1>Please prepare for your exam</h1>
-    <p>Exam ID: <span id="exam_id"></span></p>
-    <p>User ID: <span id="user_id"></span></p>
-    <h2>Please access this link: </h2>
-    <button id="exam_link"></button>
-    <h2>When you are ready, press START</h2>
-    <button id="exam_start">START</button>
+    <div class="container">
+        <img src="../../images/logo.png" alt="SATORI" class="logo">
+
+        <div class="arrow-steps">
+            <div class="step"><span>ログイン</span></div>
+            <div class="step"><span>写真撮影</span></div>
+            <div class="step"><span> 音声録音</span></div>
+            <div class="step current"><span>試験準備</span></div>
+            <div class="step"><span>試験開始</span></div>
+            <div id="clear" style="clear:both;"></div>
+        </div>
+
+        <div class="left">
+            <div class="box">
+                <p>試験リンクにアクセスしてください。</p>
+                <button id="exam_link" style="width: 80%; margin: 0; text-align: left;"></button>
+                <br><br><br><br>
+                <p>試験を開始する準備ができましたら、「試験開始」ボタンを押してください。</p><br><br>
+                <button id="exam_start"><b>試験開始</b></button>
+                <br><br>
+            </div>
+        </div>
+        
+        <div class="right">
+            <div class="box">
+                <p><b>試験ID</b><br><span id="exam_id"></span></p>
+                <p><b>受験者ID</b><br><span id="user_id"></span></p>
+                <p><b>試験時間</b><br>60分</p>
+            </div>
+        </div>
+    </div>
+    
     <script src="exam_prep.js"></script>
 </body>
 </html>

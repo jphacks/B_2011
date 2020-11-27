@@ -32,8 +32,11 @@
     "data-uri-to-buffer": "^3.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "face-api.js": "^0.22.2",
+    "node-ipc": "^9.1.3",
     "python-shell": "^2.0.3",
-    "webcamjs": "^1.0.26"
+    "sudo-prompt": "^9.2.1",
+    "webcamjs": "^1.0.26",
+    "ws": "^7.4.0"
   },
   "config": {
     "forge": {

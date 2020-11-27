@@ -2,3 +2,10 @@
 **/venv
 **/img/*.png
 **/log/
+**/*.wav
+**/node_modules/
+**/out/
+**/dist/
+**/build/
+**/.env
+**/.vscode/
