@@ -1,19 +1,27 @@
-const { ipcRenderer } = require('electron')
-ipcRenderer.send('take_photo', 'get_user_info');
-ipcRenderer.on('take_photo', (event, data) => {
-    document.getElementById('exam_id').innerText = data.exam_id
-    document.getElementById('user_id').innerText = data.user_id
-    console.log(data.exam_id);
-});
+// const { ipcRenderer } = require('electron')
+// ipcRenderer.send('take_photo', 'get_user_info');
+// ipcRenderer.on('take_photo', (event, data) => {
+//     document.getElementById('exam_id').innerText = data.exam_id
+//     document.getElementById('user_id').innerText = data.user_id
+//     console.log(data.exam_id);
+// });
 
 var enabled = true;
 var WebCamera = require("webcamjs");
-
-WebCamera.attach('#camdemo');
-console.log("The camera has been started");
-
 var fs = require('fs')
-const path = require('path')
+const path = require('path');
+
+WebCamera.set({
+    width: 640,
+    height: 480,
+    dest_width: 640,
+    dest_height: 480,
+    crop_width: 640,
+    crop_height: 480
+});
+
+WebCamera.attach('#camera_screen');
+console.log("The camera has been started");
 
 function processBase64Image(dataString) {
     var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),response = {};
@@ -36,7 +44,7 @@ document.getElementById("take_photo").addEventListener('click', () => {
                 if(err) {
                     console.log("Cannot save image");
                 } else {
-                    alert("Image saved succesfully");
+                    alert("写真撮影ができました。");
                     WebCamera.reset();
                     // Proceed to next page
                     document.location.href = "record_sound.html"
