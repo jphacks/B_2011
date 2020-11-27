@@ -44,6 +44,7 @@ faceapi.nets.faceLandmark68TinyNet.loadFromUri('models/weights')
 
 let yaw_left_count = 0;
 let yaw_right_count = 0;
+let head_counter = 0;
 
 detect();
 
@@ -95,18 +96,34 @@ async function detect() {
         yaw_left_count += 1
     } else if (yaw >= 35) {
         yaw_right_count += 1
+    } else {
+        head_counter += 1
+        if (head_counter == 100) {
+            ipcRenderer.send('head_pose_estimation', {
+                alert: 0,
+                description: 'normal'
+            });
+            head_counter = 0
+        }
     }
+
     if (yaw_left_count > 40) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the left. Please focus on the screen.'
         })
-        ipcRenderer.send('head_pose_estimation', { description: 'User is looking left' });
+        ipcRenderer.send('head_pose_estimation', {
+            alert: 1,
+            description: 'User is looking left'
+        });
         yaw_left_count = 0
     } else if (yaw_right_count > 40) {
         const myNotification = new Notification('Head position alert', {
             body: 'You are looking to the right. Please focus on the screen.'
         })
-        ipcRenderer.send('head_pose_estimation', { description: 'User is looking right' });
+        ipcRenderer.send('head_pose_estimation', {
+            alert: 1,
+            description: 'User is looking right'
+        });
         yaw_right_count = 0
     }
 }

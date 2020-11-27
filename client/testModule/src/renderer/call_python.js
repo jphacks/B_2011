@@ -21,8 +21,18 @@ if (!dist_folder_exists()) {
     const ps = require('python-shell')
     let pyshell = new ps.PythonShell(script)
     console.log('Python script started')
+    const { ipcRenderer } = require('electron')
     pyshell.on('message', (message) => {
-      console.log(message);
+      const data = JSON.parse(message)
+      if (data.alert !== 0) {
+        const myNotification = new Notification(data.description, {
+          body: ''
+        })
+      }
+      ipcRenderer.send('face_recognition', {
+        alert: data.alert,
+        description: data.description
+      })
     });
 } else {
     // Execute python dist file when its available
