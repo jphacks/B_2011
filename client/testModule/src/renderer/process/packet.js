@@ -56,7 +56,7 @@ const detectDevices = async () => {
             });
             
             while (true) {
-                const response = await fetch('http://demo.ben.hongo.wide.ad.jp:8000/ping');
+                const response = await fetch('http://203.178.135.71:8000/ping');
                 if (response.status === 200) {
                     break;
                 }

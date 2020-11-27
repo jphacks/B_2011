@@ -139,7 +139,7 @@ ipcMain.on('exam_finished', (event, data) => {
 
 // Connect with server
 var connection = new WebSocket(
-    "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+    "ws://203.178.135.71:8000/ws/examinee/" + exam_id
 );
 
 async function sleep(ms) {
@@ -153,7 +153,7 @@ connection.onopen = function() {
 connection.onerror = function() {
     console.log("websocket connection closed on error");
     connection = new WebSocket(
-        "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+        "ws://203.178.135.71:8000/ws/examinee/" + exam_id
     );
 };
 
@@ -170,7 +170,7 @@ connection.onmessage = function(e) {
 connection.onclose = function() {
     console.log("websocket connection closed");
     connection = new WebSocket(
-        "ws://ben.hongo.wide.ad.jp:8000/ws/examinee/" + exam_id
+        "ws://203.178.135.71:8000/ws/examinee/" + exam_id
     );
 };
 
