@@ -1,12 +1,11 @@
 const activeWin = require('active-win')
-const { ipcRenderer } = require('electron')
 
-let previous_active_app_title =  (async () => {
+let previous_active_app_title = (async() => {
     active_app_title = (await activeWin()).title;
 })();
 
 const active_window_interval = setInterval(function() {
-    (async () => {
+    (async() => {
         const current_active_app_title = (await activeWin()).title;
         if (current_active_app_title !== previous_active_app_title) {
             previous_active_app_title = current_active_app_title

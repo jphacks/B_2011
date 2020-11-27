@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>SATORI</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
 </head>
+
 <body>
     <select name="camera-device-id" id="camera-device-id"></select>
     <div style="position: relative;">
@@ -12,10 +14,12 @@
         <canvas id="canvas1" width="640" height="480" style="position: absolute; top: 0px; left: 0px; transform: scaleX(-1);"></canvas>
         <canvas id="canvas2" width="640" height="480" style="position: absolute; top: 0px; left: 0px; transform: scaleX(-1);"></canvas>
     </div>
+    <script src="init.js"></script>
     <script src="active_window.js"></script>
     <script src="clipboard.js"></script>
     <script src="head_pose_estimation.js"></script>
     <script src="save_canvas_photo.js"></script>
     <script src="call_python.js"></script>
 </body>
+
 </html>
