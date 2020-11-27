@@ -118,6 +118,11 @@ ipcMain.on('face_recognition', (event, data) => {
     send_json('face_recognition', data.alert, data.description, '')
 });
 
+ipcMain.on('voice_recognition', (event, data) => {
+    console.log('[SERVER] voice_recognition ', data.alert, data.description)
+    send_json('voice_recognition', data.alert, data.description, '')
+});
+
 ipcMain.on('ssh_process_name', (_, data) => {
     console.log('[SERVER] ssh_process_name ', data.alert, data.description)
     send_json('ssh_process_name', data.alert, data.description, '')

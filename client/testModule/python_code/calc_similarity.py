@@ -18,7 +18,7 @@ while(True):
 		valid_image = face_recognition.load_image_file(valid_uri)
 		sample_image = face_recognition.load_image_file(sample_uri)
 	except:
-		print(json.dumps({ "alert": 1, "description": "Image not valid" }))
+		print(json.dumps({ "module" : "face_recognition" ,"alert": 1, "description": "Image not valid" }))
 		sys.stdout.flush()
 		continue
 
@@ -31,20 +31,20 @@ while(True):
 		# sys.stdout.flush()
 		counter += 1
 		if counter == 10:
-			print(json.dumps({ "alert": 0, "description": "normal" }))
+			print(json.dumps({ "module" : "face_recognition" ,"alert": 0, "description": "normal" }))
 			sys.stdout.flush()
 			counter = 0
 	except:
 		description = 'any face cannot be detected'
 		# helper.send_json(module_name, True, description, content)
-		print(json.dumps({ "alert": 1, "description": description }))
+		print(json.dumps({ "module" : "face_recognition" ,"alert": 1, "description": description }))
 		sys.stdout.flush()
 		continue
 
 	if result > 0.4:
 		description = 'different person might be taking exam'
 		# helper.send_json(module_name, True, description, content)
-		print(json.dumps({ "alert": 1, "description": description }))
+		print(json.dumps({ "module" : "face_recognition" ,"alert": 1, "description": description }))
 		sys.stdout.flush()
 	else:
 		description = 'examinee is on the chair'

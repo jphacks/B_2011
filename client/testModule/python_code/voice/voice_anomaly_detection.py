@@ -9,6 +9,9 @@ import wave
 import math
 import datetime
 import time
+import torch
+import sys
+import json
 from scipy.fftpack.realtransforms import dct
 from sklearn.svm import SVC 
 
@@ -19,7 +22,7 @@ CHANNELS = 1             # monaural
 RATE = 44100             # sampling frequency [Hz]
 
 threshold = 0.25         # 音量の閾値
-nceps = 10
+nceps = 12
 
 def anyone_speaking(p, stream):
     while True:
@@ -155,17 +158,74 @@ def voice_inference(model, filename):
     Y_pred = max(dic, key=dic.get)
     fig.savefig("shun.png")
 
-    if str(Y_pred[0]) == '0':
-        pass
-    else:
-        #TODO : NGの際の処理を仕上げる。
-        print('NG!!!')
+    return str(Y_pred)
 
-def make_wav(s):
-    print('母音の" ' + str(s) + ' "を5秒間発声してください。')
-    time.sleep(1)
-    filename = './wav/0_' + s + '.wav'
-    subprocess.run(['rec', '-c', '1', '-r', '44100', filename, 'trim', '0', '5'])
+def make_training_model_list():
+    Y_train = np.array([i//20 for i in range(40)])
+    dir_path = './wav'
+    model_list = []
+    for i in range(1,4): # 何人いるか
+        X_train = np.array([])
+        Y_train = np.array([x//20 for x in range(40)])
+        for l in [0,i]:
+            for j in range(5,25):
+                vague_vowel = [0] * nceps
+                for s in ['a', 'i', 'u', 'e', 'o']: # 一人あたり何個の音声学習データがあるか
+                    filename = os.path.join(dir_path, str(l) + '_' + s +'.wav')
+                    fscale, spec, fs, N = fft(filename, 0.2*j, 0.2*(j+1))
+                    filterbank, fcenters = melFilterBank(fs, N, numChannels=20)
+                    # 振幅スペクトルにメルフィルタバンクを適用
+                    mspec = np.dot(spec, filterbank.T)
+                    mfcc = disc_cos(mspec)
+                    for k in range(nceps):
+                        vague_vowel[k] += mfcc[k]
+                vague_vowel = normalization(vague_vowel[1:nceps])
+                X_train = np.append(X_train, vague_vowel)
+        X_train = X_train.reshape(-1, nceps-1) # size : (40, 11)
+        model = svm_model(X_train, Y_train)
+        model_list.append(model)
+
+        fig = plt.figure()
+        for k, s in enumerate(['g','y']):
+            x = []
+            y = []
+            for j in range(20):
+                x.append(X_train[k*20+j][0])
+                y.append(X_train[k*20+j][1])
+            plt.scatter(x,y,c=s)
+        fig.savefig('ikuno' + str(i) + '.png')
+    
+    return model_list
+
+def pyannotate(filename, pipeline):
+    # apply diarization pipeline on your audio file
+        diarization = pipeline({'audio': filename})
+
+        # dump result to disk using RTTM format
+        with open('./wav/log.rttm', 'w') as f:
+            diarization.write_rttm(f)
+        
+        # iterate over speech turns
+        sum_time = 0
+        member = {} # {speaker : total time}
+        for turn, _, speaker in diarization.itertracks(yield_label=True):
+            if speaker in member.keys():
+                member[speaker] += (turn.end - turn.start)
+            else:
+                member[speaker] = (turn.end - turn.start)
+            print(f'Speaker "{speaker}" speaks between t={turn.start:.1f}s and t={turn.end:.1f}s.')
+        
+        print(member)
+        
+        speaking_num = 0
+        for speaker in member:
+            if member[speaker] >= 1:
+                speaking_num += 1
+        if speaking_num >= 1:
+            print('[CAUTION] someone is speaking.....')
+        if speaking_num >= 2:
+            print('[CAUTION] more than 1 person was detected.....')
+
 
 # main関数のようなもの。
 def anomaly_detection():
@@ -176,45 +236,6 @@ def anomaly_detection():
     if os.path.exists('log'):
         shutil.rmtree('log')
     os.mkdir('log')
-    # for s in ['a','i','u','e','o']:
-    #     make_wav(s)
-
-
-    X_train = np.array([])
-    Y_train = np.array([])
-    # 学習データの生成
-    dir_path = './wav'
-    for i in range(4): # 何人いるか
-        for j in range(5,25):
-            Y_train = np.append(Y_train, i)
-            vague_vowel = [0] * nceps
-            for s in ['a', 'i', 'u', 'e', 'o']: # 一人あたり何個の音声学習データがあるか
-                filename = os.path.join(dir_path, str(i) + '_' + s +'.wav')
-                fscale, spec, fs, N = fft(filename, 0.2*j, 0.2*(j+1))
-                filterbank, fcenters = melFilterBank(fs, N, numChannels=20)
-                # 振幅スペクトルにメルフィルタバンクを適用
-                mspec = np.dot(spec, filterbank.T)
-                mfcc = disc_cos(mspec)
-                for k in range(nceps):
-                    vague_vowel[k] += mfcc[k]
-            vague_vowel = normalization(vague_vowel[1:nceps])
-            X_train = np.append(X_train, vague_vowel)
-    X_train = X_train.reshape(-1, nceps-1)
-
-    fig = plt.figure()
-    for i, s in enumerate(['r','b','g','y']):
-        x = []
-        y = []
-        for j in range(20):
-            x.append(X_train[i*20+j][0])
-            y.append(X_train[i*20+j][1])
-        plt.scatter(x,y,c=s)
-    
-    fig.savefig("ikuno.png")
-        
-    
-    # TODO : 0-indexに本人の音声のケプストラムを入れたい。
-    model = svm_model(X_train, Y_train)
 
     # ---------------------------------------------------------
     # ここから下は実際に試験中に音声を認識するフェーズに入る。
@@ -229,12 +250,32 @@ def anomaly_detection():
                     input_device_index = DEVICE_INDEX,
                     frames_per_buffer = CHUNK,
                     )
+    
+    # pyannotateのpipelineを作成
+    pipeline = torch.hub.load('pyannote/pyannote-audio', 'sad', pipeline=True)
 
+    model_list = make_training_model_list()
+
+    print('voice model created')
+    
     while True:
         anyone_speaking(p, stream) # 話し始めると以下に進む。
+        print('a noise detected.')
+        print(json.dumps({"alert" : 1, "description" : "a noise detected....."}))
+        sys.stdout.flush()
+
 
         filename = record(p, stream)
-        voice_inference(model, filename)
+        dic = {'0':0, '1':0}
+        for model in model_list:
+            pred_num = voice_inference(model, filename)
+            dic[pred_num] += 1
+        print(dic['0'], dic['1'])
+        if dic['1'] == 0:
+            print('OK!')
+        else:
+            print('pyannotate started...')
+            pyannotate(filename, pipeline)
 
 
 anomaly_detection()
