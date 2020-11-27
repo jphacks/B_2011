@@ -16,7 +16,7 @@
 
 <style scoped>
   /deep/ .v-text-field{
-    width: 700px;
+    width: 900px;
   }
 </style>
 

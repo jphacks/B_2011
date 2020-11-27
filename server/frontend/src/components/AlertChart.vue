@@ -1,8 +1,28 @@
 <template>
   <div id="chart">
-    <apexchart type="scatter" height="350" width="800" :options="chartOptions" :series="series"></apexchart>
+    <v-row>
+      <v-col>
+          <p style="font-size: 8pt; margin: 48px 9px 9px 9px; padding: 5px">トラフィック</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">SSHプロセス</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">音声</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">視線検出</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">顔認証</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">クリップボード</p>
+          <p style="font-size: 8pt; margin: 9px; padding: 5px">ウィンドウ</p>
+      </v-col>
+      <v-col>
+        <apexchart type="scatter" height="350" width="700" :options="chartOptions" :series="series"></apexchart>
+      </v-col>
+    </v-row>
   </div>
 </template>
+<style>
+  /*.index {*/
+  /*  font-size: 8pt;*/
+  /*  margin: 6px;*/
+  /*  padding: 5px;*/
+  /*}*/
+</style>
 <script>
 import Vue from 'vue'
 import VueApexCharts from 'vue-apexcharts'
@@ -33,7 +53,7 @@ export default Vue.extend({
           },
           yaxis: {
             lines: {
-              show: false
+              show: true
             }
           }
         },
