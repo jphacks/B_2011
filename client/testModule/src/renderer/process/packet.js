@@ -124,13 +124,13 @@ const testSSH = async () => {
                 }
             });
         
-            const checkProcessName = (name) => {
+            const checkProcessName = (process) => {
                 // Chrome remote desktop@Windows
-                if (/.*(remote|remoting).*/.test(name)) {
+                if (/.*(remote|remoting).*/.test(process.name)) {
                     return true;
                 }
                 // ssh@Ubuntu
-                else if (/.*sshd:.*@.*/.test(name)) {
+                else if (/.*sshd: .*/.test(process.command)) {
                     return true;
                 }
                 return false;
@@ -139,7 +139,7 @@ const testSSH = async () => {
             setInterval(async () => {
                 // process name filtering
                 const processList = (await si.processes()).list;
-                const alertProcessList = processList.filter((process) => checkProcessName(process.name));
+                const alertProcessList = processList.filter((process) => checkProcessName(process));
                 if (alertProcessList.length === 0) {
                     ipc.of.sshserver.emit('message', {
                         title: 'ok',
