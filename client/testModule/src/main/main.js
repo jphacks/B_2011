@@ -79,6 +79,10 @@ ipcMain.on('head_pose_estimation', (event, data) => {
     send_json('head_pose_estimation', data.description, '')
 });
 
+ipcMain.on('exam_finished', (event, data) => {
+    app.quit()
+});
+
 // Connect with server
 const send_json = (module_name, description, content) => {
     
