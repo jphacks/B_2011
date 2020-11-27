@@ -20,7 +20,7 @@ import AlertChart from "*.vue"
               :time_alert="time_alert"/>
           </v-row>
           <v-row>
-            <ListAlerts
+            <ListAlertsExaminee
               v-show="!is_loading"
               :alerts="alerts"/>
           </v-row>
@@ -32,7 +32,7 @@ import AlertChart from "*.vue"
 <script>
 import Vue from 'vue'
 import ListExaminees from '@/components/ListExaminees.vue'
-import ListAlerts from '@/components/ListAlerts.vue'
+import ListAlertsExaminee from '@/components/ListAlertsExaminee.vue'
 import AlertChart from '@/components/AlertChart.vue'
 import StatusConfig from '@/config/Status.ts'
 
@@ -40,7 +40,7 @@ export default Vue.extend({
   name: 'Examinee Report',
   components: {
     ListExaminees,
-    ListAlerts,
+    ListAlertsExaminee,
     AlertChart
   },
   created: function () {

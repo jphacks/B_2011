@@ -14,10 +14,10 @@
           開催日: {{item.exam_date}}
         </v-list-item-subtitle>
         <v-list-item-subtitle>
-          開始時刻: {{item.start_at}}
+          開始時刻: {{item.start_at | moment}}
         </v-list-item-subtitle>
         <v-list-item-subtitle>
-          終了時刻: {{item.end_at}}
+          終了時刻: {{item.end_at | moment}}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -25,12 +25,18 @@
 </template>
 <script>
 import Vue from 'vue'
+import moment from 'moment'
 
 export default Vue.extend({
   name: 'ListExams',
   computed: {
     exams: function () {
       return this.$parent.exam_list
+    }
+  },
+  filters: {
+    moment: function (date) {
+      return moment(Date.parse(date)).format('HH:mm')
     }
   }
 })

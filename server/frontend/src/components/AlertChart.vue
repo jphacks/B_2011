@@ -13,53 +13,55 @@ export default Vue.extend({
     apexchart: VueApexCharts
   },
   data: function () {
-      return {
-        chartOptions: {
-          chart: {
-            height: 350,
-            type: 'scatter',
-            zoom: {
-              type: 'xy'
-            }
-          },
-          dataLabels: {
-            enabled: false
-          },
-          grid: {
-            xaxis: {
-              lines: {
-                show: true
-              }
-            },
-            yaxis: {
-              lines: {
-                show: false
-              }
-            }
-          },
+    return {
+      chartOptions: {
+        chart: {
+          height: 350,
+          type: 'scatter',
+          zoom: {
+            type: 'xy'
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        grid: {
           xaxis: {
-            type: 'datetime'
+            lines: {
+              show: true
+            }
           },
           yaxis: {
-            max: 8,
-            labels: {
+            lines: {
               show: false
             }
-          },
-          colors: ['#7cfc00', '#ffff00', '#ff0000'],
-          tooltip: {
-            x: {
-              show: true,
-              format: 'hh:mm:ss',
-              formatter: undefined
-            },
+          }
+        },
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            show: true
+          }
+        },
+        yaxis: {
+          max: 8,
+          labels: {
+            show: false
+          }
+        },
+        colors: ['#7cfc00', '#ffff00', '#ff0000'],
+        tooltip: {
+          x: {
+            show: false,
+            format: 'HH:mm',
+            formatter: undefined
           }
         }
       }
-    },
+    }
+  },
   computed: {
     series: function () {
-      console.log(this.$parent)
       return [{
         name: '正常動作',
         data: this.$parent.time_normal

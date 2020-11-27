@@ -77,11 +77,9 @@ const PropertyStore = new Vuex.Store({
       state.property.status = StatusConfig.LOADED
     },
     setTimeList (state, response) {
-      console.log(response)
       const data = JSON.parse(response)
 
       state.property.time_normal_list = data.time_normal_list
-      console.log(state.property.time_normal_list)
       state.property.time_warning_list = data.time_warning_list
       state.property.time_alert_list = data.time_alert_list
       state.property.status = StatusConfig.LOADED
@@ -106,7 +104,6 @@ const PropertyStore = new Vuex.Store({
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message)  {
       state.socket.message = message
-      console.log(message)
       state.property.alert_list.unshift(message)
     },
     // mutations for reconnect methods
