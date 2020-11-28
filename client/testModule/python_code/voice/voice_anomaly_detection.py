@@ -21,7 +21,7 @@ FORMAT = pyaudio.paInt16 # 16bit
 CHANNELS = 1             # monaural
 RATE = 44100             # sampling frequency [Hz]
 
-threshold = 0.25         # 音量の閾値
+threshold = 0.2         # 音量の閾値
 nceps = 12
 
 def anyone_speaking(p, stream):
@@ -162,7 +162,7 @@ def voice_inference(model, filename):
 
 def make_training_model_list():
     Y_train = np.array([i//20 for i in range(40)])
-    dir_path = './wav'
+    dir_path = 'python_code/voice/wav'
     model_list = []
     for i in range(1,4): # 何人いるか
         X_train = np.array([])
@@ -202,7 +202,7 @@ def pyannotate(filename, pipeline, model_list):
         diarization = pipeline({'audio': filename})
 
         # dump result to disk using RTTM format
-        with open('./wav/log.rttm', 'w') as f:
+        with open('python_code/voice/wav/log.rttm', 'w') as f:
             diarization.write_rttm(f)
         
         # iterate over speech turns
