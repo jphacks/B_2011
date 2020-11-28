@@ -30,7 +30,7 @@ def anyone_speaking(p, stream):
         x = np.frombuffer(data, dtype="int16") / 32768.0
 
         if x.max() > threshold:
-            print(x.max())
+            # print(x.max())
             return
 
 # 波形を適当な長さに分割し、窓関数をかけてFFTを行う。
@@ -110,7 +110,7 @@ def normalization(vague_vowel):
     return vague_vowel
 
 def record(p, stream):
-    print('録音開始！')
+    # print('録音開始！')
     rec_time = 5 # [sec]
 
     now = datetime.datetime.now()
@@ -197,7 +197,7 @@ def make_training_model_list():
     
     return model_list
 
-def pyannotate(filename, pipeline):
+def pyannotate(filename, pipeline, model_list):
     # apply diarization pipeline on your audio file
         diarization = pipeline({'audio': filename})
 
@@ -213,22 +213,41 @@ def pyannotate(filename, pipeline):
                 member[speaker] += (turn.end - turn.start)
             else:
                 member[speaker] = (turn.end - turn.start)
-            print(f'Speaker "{speaker}" speaks between t={turn.start:.1f}s and t={turn.end:.1f}s.')
+            # print(f'Speaker "{speaker}" speaks between t={turn.start:.1f}s and t={turn.end:.1f}s.')
         
-        print(member)
+        # print(member)
         
         speaking_num = 0
         for speaker in member:
             if member[speaker] >= 1:
                 speaking_num += 1
-        if speaking_num >= 1:
-            print('[CAUTION] someone is speaking.....')
+        if speaking_num == 0:
+            return
+        if speaking_num == 1:
+            dic = {'0':0, '1':0}
+            for model in model_list:
+                pred_num = voice_inference(model, filename)
+                dic[pred_num] += 1
+            if dic['1'] == 0:
+                description = 'the examinee is speaking'
+                print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
+                sys.stdout.flush()
+                # print('[CAUTION] someone is speaking.....')
+            else:
+                description = 'someone else is speaking'
+                print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
+                sys.stdout.flush()
         if speaking_num >= 2:
-            print('[CAUTION] more than 1 person was detected.....')
+            description = 'more than 1 person was detected'
+            print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
+            sys.stdout.flush()
+            # print('[CAUTION] more than 1 person was detected.....')
 
 
 # main関数のようなもの。
 def anomaly_detection():
+    description = 'the examinee is speaking'
+    print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
     # TODO : フロントで母音を言うように出してもらって、それを
     # TODO : './wav/examinee_a.wav'のように保存してもらう。
     # 現状、一時的にexaminee_a.wavをmake_wav()で作成する。
@@ -256,26 +275,31 @@ def anomaly_detection():
 
     model_list = make_training_model_list()
 
-    print('voice model created')
+    # print('voice model created')
+    description = 'more than 1 person was detected'
+    print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
     
     while True:
         anyone_speaking(p, stream) # 話し始めると以下に進む。
-        print('a noise detected.')
-        print(json.dumps({"alert" : 1, "description" : "a noise detected....."}))
-        sys.stdout.flush()
+        # print('a noise detected.')
+        # print(json.dumps({"alert" : 1, "description" : "a noise detected....."}))
+        # sys.stdout.flush()
 
 
         filename = record(p, stream)
-        dic = {'0':0, '1':0}
-        for model in model_list:
-            pred_num = voice_inference(model, filename)
-            dic[pred_num] += 1
-        print(dic['0'], dic['1'])
-        if dic['1'] == 0:
-            print('OK!')
-        else:
-            print('pyannotate started...')
-            pyannotate(filename, pipeline)
+        pyannotate(filename, pipeline, model_list)
+        # dic = {'0':0, '1':0}
+        # for model in model_list:
+        #     pred_num = voice_inference(model, filename)
+        #     dic[pred_num] += 1
+        # # print(dic['0'], dic['1'])
+        # if dic['1'] == 0:
+        #     description = 'the examinee is speaking'
+        #     print(json.dumps({ "module" : "voice_recognition", "alert" : 1, "description" : description }))
+        #     pass
+        # else:
+        #     # print('pyannotate started...')
+            # pyannotate(filename, pipeline)
 
 
 anomaly_detection()
