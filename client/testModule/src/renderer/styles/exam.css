@@ -1,0 +1,39 @@
+.exam-in-progress {
+  width: 200px;
+  height: 60px;
+  color: #fff;
+  text-align: center;
+  line-height: 60px;
+  font-size: 30px;
+  margin-left: 10px;
+  animation: exam-in-progress 2s infinite;
+}
+
+#remaining_time {
+  font-size: 50px;
+  line-height: 70px;
+}
+
+button#exam_finish {
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  background-color: red;
+  color: #fff;
+}
+
+@keyframes exam-in-progress {
+  0%   { background-color: #ff0000; }
+  50% { background-color: rgb(255, 145, 0); }
+  100% { background-color: #ff0000; }
+}
+
+li {
+  list-style-type: none;
+  background-color: #fff;
+  width: 90%;
+  color: red;
+  height: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
