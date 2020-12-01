@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from proctor.ping import PingAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/message/', include('sent_messages.urls')),
-    path('api/exam/', include('exams.urls'))
+    path('api/exam/', include('exams.urls')),
+    path('api/examinee/', include('examinees.urls')),
+    path('ping', PingAPIView.as_view())
 ]

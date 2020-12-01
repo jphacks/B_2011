@@ -1,4 +1,11 @@
 **/__pycache__/*
+<<<<<<< HEAD
+**/venv/*
+**/.env
+**/img/*.png
+**/log/
+db.sqlite3
+=======
 **/venv
 **/img/*.png
 **/log/
@@ -11,3 +18,4 @@
 **/.vscode/
 **/*.png
 **/*.rttm
+>>>>>>> 22e9fc8f80b6c9c8c4d02bd9fd9b627b5953f243
