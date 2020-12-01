@@ -1,0 +1,48 @@
+
+> SATORI@0.1.0 start:prod /work/frontend/server/frontend
+> vue-cli-service serve --mode production
+
+ INFO  Starting development server...
+Starting type checking service...
+Using 1 worker with 2048MB memory limit
+ WARNING  Compiled with 2 warnings4:54:29 PM
+
+ warning  
+
+asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  js/chunk-1df1f14e.8208f3ca.js (482 KiB)
+  css/chunk-vendors.faf79e7f.css (317 KiB)
+  js/chunk-vendors.36210dda.js (564 KiB)
+
+ warning  
+
+entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (897 KiB)
+      css/chunk-vendors.faf79e7f.css
+      js/chunk-vendors.36210dda.js
+      js/app.4e5cfb3c.js
+
+
+ERROR in /work/frontend/server/frontend/src/main.ts(6,27):
+6:27 Could not find a declaration file for module 'vue-native-websocket'. '/work/frontend/server/frontend/node_modules/vue-native-websocket/dist/build.js' implicitly has an 'any' type.
+  Try `npm install @types/vue-native-websocket` if it exists or add a new declaration (.d.ts) file containing `declare module 'vue-native-websocket';`
+    4 | import vuetify from './plugins/vuetify'
+    5 | import Store from './models/Store'
+  > 6 | import VueNativeSock from 'vue-native-websocket'
+      |                           ^
+    7 | 
+    8 | Vue.config.productionTip = false
+    9 | Vue.use(VueNativeSock, 'ws://ben.hongo.wide.ad.jp:8000', {
+Version: typescript 3.9.7
+Time: 3030ms
+
+  App running at:
+  - Local:   http://203.178.135.71:20000/ 
+  - Network: http://203.178.135.71:20000/
+
+  App is served in production mode.
+  Note this is for preview or E2E testing only.
+

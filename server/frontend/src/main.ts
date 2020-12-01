@@ -6,7 +6,7 @@ import Store from './models/Store'
 import VueNativeSock from 'vue-native-websocket'
 
 Vue.config.productionTip = false
-Vue.use(VueNativeSock, 'ws://ben.hongo.wide.ad.jp:8000', {
+Vue.use(VueNativeSock, 'ws://203.178.135.71:8000', {
   connectManually: true,
 })
 
