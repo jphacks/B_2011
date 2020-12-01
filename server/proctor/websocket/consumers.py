@@ -46,7 +46,8 @@ class ExamineeConsumer(AsyncWebsocketConsumer):
         message = event['message']
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps(message))
+        print(message)
+        await self.send(text_data=message)
 
     async def examinee_message(self, event):
         pass
@@ -82,8 +83,8 @@ class UserConsumer(AsyncWebsocketConsumer):
 
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
         #send message to users from examinees
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -95,6 +96,8 @@ class UserConsumer(AsyncWebsocketConsumer):
     # Receive message from examinees
     async def examinee_message(self, event):
         message = event['message']
+        if message['alert']==0:
+            return 0
         # Send message to WebSocket
         await self.send(text_data=json.dumps(message))
 

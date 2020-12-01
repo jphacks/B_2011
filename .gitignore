@@ -3,3 +3,4 @@
 **/.env
 **/img/*.png
 **/log/
+db.sqlite3

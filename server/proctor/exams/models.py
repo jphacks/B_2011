@@ -12,6 +12,7 @@ class Exam(models.Model):
     user_id = models.UUIDField()
     exam_name = models.CharField(max_length=200, default=None, null=True)
     description = models.CharField(max_length=200, default=None, null=True)
+    exam_url = models.URLField()
     exam_date = models.DateField()
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()

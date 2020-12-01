@@ -12,7 +12,7 @@ class Message(models.Model):
     examinee_id = models.UUIDField()
     exam_id = models.UUIDField()
     module_name = models.CharField(max_length=100, blank=True, null=True)
-    alert = models.BooleanField(default=False)
+    alert = models.IntegerField(default=0)
     description = models.CharField(max_length=200, default=None, null=True)
     content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
